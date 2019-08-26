@@ -1,0 +1,4 @@
+node_modules
+facuService/assets
+yarn.lock
+package-lock.json
