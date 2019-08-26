@@ -1,0 +1,22 @@
+{
+  "name": "facu-event",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sistema para eventos.",
+  "author": "Alexander David ",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cd facuService && yarn dev & cd facuAdmin && yarn serve",
+    "dev:b": "cd facuService && yarn dev ",
+    "dev:f": "cd facuAdmin && yarn serve",
+    "install": "cd facuAdmin && yarn install && cd ../facuService && yarn instal && cd ..",
+    "install:b": "cd facuService && yarn instal",
+    "install:f": "cd facuAdmin && yarn instal",
+    "add:b": "cd facuService && yarn add",
+    "add:f": "cd facuAdmin && yarn add",
+    "build": "cd facuAdmin && yarn build"
+  },
+  "engines": {
+    "node": "^10.16"
+  }
+}
