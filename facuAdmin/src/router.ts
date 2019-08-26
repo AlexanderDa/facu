@@ -10,6 +10,10 @@ export default new Router({
       name: 'home',
       component: () => import('@/views/root/RootPage.vue'),
     },
-
+    {
+      path: '/admin',
+      name: 'MainAdminPage',
+      component: () => import('@/views/admin/main/MainAdminPage.vue'),
+    },
   ],
 });
