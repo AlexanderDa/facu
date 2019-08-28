@@ -11,5 +11,6 @@
 module.exports.custom = {
 
   baseUrl: 'http://localhost:1337',
-  
+  maxImageSize: 3500000,
+
 };

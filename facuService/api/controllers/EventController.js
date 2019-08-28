@@ -59,36 +59,37 @@ module.exports = {
     createNewEvent: async function (req, res) {
         res.setTimeout(10000);
 
-        req.file('image').upload({ maxBytes: 3000000 }, async function whenDone(err, uploadedFiles) {
-            if (err) {
-                res.status = 500;
-                res.send({ saved: false })
-            }
-            if (uploadedFiles.length === 0) {
-                res.status = 400;
-                res.send({ saved: false, msg: 'Image not attached' })
-            }
-            else {
-                let file = uploadedFiles[0]
-                let newImage = await Image.create({
-                    fd: file.fd,
-                    type: file.type,
-                    field: file.field
-                }).fetch();
-
-                let newEvent = await Event.create({
-                    name: req.param('name'),
-                    description: req.param('description'),
-                    publishDate: new Date(),
-                    eventDate: req.param('eventDate'),
-                    image: `${sails.config.custom.baseUrl}/file/image/${newImage.id}`
+        req.file('image').upload(
+            { maxBytes: sails.config.custom.maxImageSize },
+            async function whenDone(err, uploadedFiles) {
+                if (err) {
+                    res.serverError({ err })
                 }
-                ).fetch();
+                if (uploadedFiles.length === 0) {
+                    res.status = 400;
+                    res.send({ saved: false, msg: 'Image not attached' })
+                }
+                else {
+                    let file = uploadedFiles[0]
+                    let newImage = await Image.create({
+                        fd: file.fd,
+                        type: file.type,
+                        field: file.field
+                    }).fetch();
 
-                return res.send({ saved: true, newEvent });
-            }
+                    let newEvent = await Event.create({
+                        name: req.param('name'),
+                        description: req.param('description'),
+                        publishDate: new Date(),
+                        eventDate: req.param('eventDate'),
+                        image: `${sails.config.custom.baseUrl}/file/image/${newImage.id}`
+                    }
+                    ).fetch();
 
-        });
+                    return res.send({ saved: true, newEvent });
+                }
+
+            });
 
     },
 
@@ -96,56 +97,58 @@ module.exports = {
     updateOneEvent: async function (req, res) {
         res.setTimeout(10000);
 
-        req.file('image').upload({ maxBytes: 3000000 }, async function whenDone(err, uploadedFiles) {
-            if (err) {
-                res.status = 500;
-                res.send({ saved: false })
-            }
-            if (uploadedFiles.length === 0) {
-                let updateEvent = await Event.updateOne(req.param('id'), {
-                    name: req.param('name'),
-                    description: req.param('description'),
-                    eventDate: req.param('eventDate'),
-                });
-                res.send({
-                    updated: true,
-                    updateEvent
-                })
-            }
-            else {
-                let file = uploadedFiles[0]
-                let newImage = await Image.create({
-                    fd: file.fd,
-                    type: file.type,
-                    field: file.field
-                }).fetch();
+        req.file('image').upload(
+            { maxBytes: sails.config.custom.maxImageSize },
+            async function whenDone(err, uploadedFiles) {
+                if (err) {
+                    res.status = 500;
+                    res.send({ saved: false })
+                }
+                if (uploadedFiles.length === 0) {
+                    let updateEvent = await Event.updateOne(req.param('id'), {
+                        name: req.param('name'),
+                        description: req.param('description'),
+                        eventDate: req.param('eventDate'),
+                    });
+                    res.send({
+                        updated: true,
+                        updateEvent
+                    })
+                }
+                else {
+                    let file = uploadedFiles[0]
+                    let newImage = await Image.create({
+                        fd: file.fd,
+                        type: file.type,
+                        field: file.field
+                    }).fetch();
 
 
 
-                // delete old image
-                let eventFound = await Event.findOne(req.param('id'));
-                let deletedImage = await Image.destroyOne(eventFound.image.split("/")[5]);
-                const fs = require('fs');
-                fs.unlink(deletedImage.fd, () => {
-                    sails.log('Image deleted from server')
-                });
+                    // delete old image
+                    let eventFound = await Event.findOne(req.param('id'));
+                    let deletedImage = await Image.destroyOne(eventFound.image.split("/")[5]);
+                    const fs = require('fs');
+                    fs.unlink(deletedImage.fd, () => {
+                        sails.log('Image deleted from server')
+                    });
 
 
 
-                //uptdate event
-                let updateEvent = await Event.updateOne(req.param('id'), {
-                    name: req.param('name'),
-                    description: req.param('description'),
-                    eventDate: req.param('eventDate'),
-                    image: `${sails.config.custom.baseUrl}/file/image/${newImage.id}`
-                });
-                res.send({
-                    updated: true,
-                    updateEvent
-                })
-            }
+                    //uptdate event
+                    let updateEvent = await Event.updateOne(req.param('id'), {
+                        name: req.param('name'),
+                        description: req.param('description'),
+                        eventDate: req.param('eventDate'),
+                        image: `${sails.config.custom.baseUrl}/file/image/${newImage.id}`
+                    });
+                    res.send({
+                        updated: true,
+                        updateEvent
+                    })
+                }
 
-        });
+            });
 
     },
 
