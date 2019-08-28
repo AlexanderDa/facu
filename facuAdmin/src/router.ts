@@ -11,9 +11,22 @@ export default new Router({
       component: () => import('@/views/root/RootPage.vue'),
     },
     {
+      path: '/login',
+      name: 'LoginPage',
+      component: () => import('@/views/login/LoginPage.vue'),
+    },
+    {
+
       path: '/admin',
       name: 'MainAdminPage',
       component: () => import('@/views/admin/main/MainAdminPage.vue'),
+      redirect: { name: 'ProfessionalPage' },
+      children: [{
+        path: 'professional',
+        name: 'ProfessionalPage',
+        component: () => import('@/views/admin/professional/ProfessionalPage.vue'),
+      }
+      ]
     },
   ],
 });

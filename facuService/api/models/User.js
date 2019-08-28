@@ -3,7 +3,7 @@
  *
  * A user who can log in to this application.
  */
-
+const bcrypt = require('bcryptjs')
 module.exports = {
   tableName: 'dbuser',
   attributes: {
@@ -110,6 +110,60 @@ module.exports = {
     collection: 'activity',
     via: 'score',
     through: 'qualification'
+  },
+
+
+
+
+
+  beforeCreate: (user, next) => {
+    bcrypt.genSalt(10, (error, salt) => {
+      if (error) return next(error)
+
+      bcrypt.hash(user.password, salt, (error, hash) => {
+        if (error) return next(error)
+
+        user.password = hash
+        next()
+      })
+    })
+  },
+
+  isValidPassword: (password, user, callback) => {
+    bcrypt.compare(password, user.password, (error, isMatch) => {
+      if (error) return callback(error)
+
+      if (isMatch) {
+        callback(null, true)
+      } else callback(new Error('Passwords doesn\'t match'), false)
+    })
+  },
+
+  simple: function (user) {
+    var userObject = {}
+    if (Array.isArray(user) == true) {
+      userObject = []
+      user.forEach(element => {
+        userObject.push({
+          emailAddress: element.emailAddress,
+          lastName: element.lastName,
+          firstName: element.firstName,
+          isSuperAdmin: element.isSuperAdmin,
+          telephone: element.telephone,
+          image: element.image
+        })
+      });
+    } else {
+      userObject = {
+        emailAddress: user.emailAddress,
+        lastName: user.lastName,
+        firstName: user.firstName,
+        isSuperAdmin: user.isSuperAdmin,
+        telephone: user.telephone,
+        image: user.image
+      }
+    }
+    return userObject
   }
 
 };

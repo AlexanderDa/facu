@@ -16,6 +16,13 @@ module.exports.routes = {
 
   'GET        /file/image/:id': 'imageController.download',
 
+  'GET        /api/v1/users': 'UserController.getAll',
+  'GET        /api/v1/user/:id': 'UserController.getById',
+  'POST       /api/v1/user/signup': { controller: 'UserController', action: 'createNewUser' },
+  'POST       /api/v1/user/login': { controller: 'UserController', action: 'login' },
+  'PUT        /api/v1/user/:id/update/info': { controller: 'UserController', action: 'updateOneUser' },
+  'PUT        /api/v1/user/:id/update/password': { controller: 'UserController', action: 'updateOneUser' },
+  'DELETE     /api/v1/user/:id': { controller: 'UserController', action: 'deleteOneUser' },
 
   'GET        /api/v1/professionals': 'ProfessionalController.getAll',
   'GET        /api/v1/professional/:id': 'ProfessionalController.getById',
