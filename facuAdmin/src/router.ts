@@ -31,7 +31,12 @@ export default new Router({
           path: 'professional',
           name: 'ProfessionalPage',
           component: () => import('@/views/admin/professional/ProfessionalPage.vue'),
-        }*/
+        },*/
+        {
+          path: 'users',
+          name: 'UserPage',
+          component: () => import('@/views/admin/user/UserPage.vue'),
+        }
       ]
     },
   ],

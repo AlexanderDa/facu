@@ -4,15 +4,10 @@ import swal from 'sweetalert';
 @Component({ name: 'EventPage' })
 export default class EventPageController extends Vue {
 
-    /*************************************************/
-    private headers: any = [
-
-        { text: 'Imagen', value: 'image', sortable: false },
-        { text: 'Nombre', value: 'name' },
-        { text: 'Fecha del evento', value: 'eventDate' },
-        { text: 'Evento notificado', value: 'wasNotificated' },
-        { text: 'Actions', value: 'action', sortable: false },
-    ]
+    /*********************************************************
+     *                      Attributes                       *
+     *********************************************************/
+    private headers: any[] = []
     private dialog: boolean = false
     private search: string = ''
     private modelList: any[] = []
@@ -23,14 +18,25 @@ export default class EventPageController extends Vue {
     private imageData: any = null
     private imageFile: any = null
 
-    /*************************************************/
-
-    /*************************************************/
+    /*********************************************************
+     *                     Initializable                     *
+     *********************************************************/
 
     created() {
         this.initialize()
+        this.headers = [
+            { text: 'Imagen', value: 'image', sortable: false },
+            { text: 'Nombre', value: 'name' },
+            { text: 'Fecha del evento', value: 'eventDate' },
+            { text: 'Evento notificado', value: 'wasNotificated' },
+            { text: 'Actions', value: 'action', sortable: false },
+        ]
     }
-    /*************************************************/
+
+
+    /*********************************************************
+     *                    API Services                       *
+     *********************************************************/
 
     private async initialize() {
         // @ts-ignore
@@ -103,6 +109,9 @@ export default class EventPageController extends Vue {
         this.close()
     }
 
+    /*********************************************************
+     *                        Functions                      *
+     *********************************************************/
 
     toEditItem(item: any) {
         this.editedIndex = this.modelList.indexOf(item)
@@ -123,7 +132,9 @@ export default class EventPageController extends Vue {
 
 
 
-    /*************************************************/
+    /*********************************************************
+     *                      Image Preview                    *
+     *********************************************************/
 
     // when a image is selected
     pickFile() {
@@ -140,7 +151,7 @@ export default class EventPageController extends Vue {
             fr.readAsDataURL(files[0])
             fr.addEventListener('load', () => {
                 this.imageData = fr.result
-                this.imageFile = files[0] // this is an image file that can be sent to server...
+                this.imageFile = files[0]
             })
         } else {
             this.imageFile = ''

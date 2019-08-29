@@ -15,6 +15,7 @@ module.exports.routes = {
 
 
   'GET        /file/image/:id': 'imageController.download',
+  'PUT        /file/image/user': 'imageController.userAvatar',
 
   'GET        /api/v1/users': 'UserController.getAll',
   'GET        /api/v1/user/:id': 'UserController.getById',

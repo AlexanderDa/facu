@@ -157,7 +157,7 @@ module.exports = {
     } else {
       userObject = {
         emailAddress: user.emailAddress,
-        fullName: `${element.lastName} ${element.firstName}`,
+        fullName: `${user.lastName} ${user.firstName}`,
         lastName: user.lastName,
         firstName: user.firstName,
         isSuperAdmin: user.isSuperAdmin,
