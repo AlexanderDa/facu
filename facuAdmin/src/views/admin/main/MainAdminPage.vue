@@ -1,11 +1,8 @@
 <template>
   <div id="app">
     <v-app id="inspire">
-      <v-navigation-drawer
-        v-model="drawer"
-        app
-        clipped
-      >
+      <!--v-progress-linear indeterminate color="secondary" style="z-index:999!important" /-->
+      <v-navigation-drawer v-model="drawer" app clipped>
         <v-list dense>
           <v-list-item
             v-for="(item,index) in sideBarItems"
@@ -22,38 +19,18 @@
         </v-list>
       </v-navigation-drawer>
 
-      <v-app-bar
-        app
-        color="primary"
-        dark
-        clipped-left
-      >
-        <img
-          src="@/assets/icon.svg"
-          width="50px"
-        >
-        <v-btn
-          icon
-          @click="drawer=!drawer"
-        >
+      <v-app-bar app color="primary" dark clipped-left>
+        <img src="@/assets/icon.svg" width="50px" />
+        <v-btn icon @click="drawer=!drawer">
           <v-icon>menu</v-icon>
         </v-btn>
         <v-toolbar-title>Facu</v-toolbar-title>
 
         <v-spacer />
 
-        <v-menu
-          offset-y
-          origin="top bottom"
-          :nudge-bottom="10"
-          transition="scale-transition"
-        >
+        <v-menu offset-y origin="top bottom" :nudge-bottom="10" transition="scale-transition">
           <template v-slot:activator="{ on }">
-            <v-btn
-              dark
-              icon
-              v-on="on"
-            >
+            <v-btn dark icon v-on="on">
               <v-icon>account_circle</v-icon>
             </v-btn>
           </template>
@@ -74,23 +51,15 @@
           </v-list>
         </v-menu>
       </v-app-bar>
-
       <v-content>
-        <!--v-progress-linear
-        v-if="$store.state.loader"
-        indeterminate color="primary"></v-progress-linear-->
-        <router-view
-          tag="v-container"
-          fluid
-          fill-height
-        />
+        <router-view tag="v-container" fluid fill-height />
       </v-content>
     </v-app>
   </div>
 </template>
 
 <script lang="ts">
-import MainAdminPageController from './MainAdminPageController';
+import MainAdminPageController from "./MainAdminPageController";
 
 export default MainAdminPageController;
 </script>

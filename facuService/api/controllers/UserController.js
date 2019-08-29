@@ -15,7 +15,7 @@ module.exports = {
             res.status = 500;
             res.send({ fetched: false })
         } else {
-            res.send(User.simple(list));
+            res.send(User.format(list));
         }
     },
 
@@ -25,7 +25,7 @@ module.exports = {
             res.status = 500;
             res.send({ fetched: false })
         } else {
-            res.send(User.simple(user));
+            res.send(User.format(user));
         }
     },
 
@@ -36,7 +36,7 @@ module.exports = {
             res.status = 500;
             res.send({ saved: false })
         } else {
-            res.send({ saved: true, user: User.simple(newUser) });
+            res.send({ saved: true, user: User.format(newUser) });
 
         }
     },
@@ -60,7 +60,7 @@ module.exports = {
             req.session.userId = user.id;
 
             res.send({
-                user: User.simple(user)
+                user: User.format(user)
             })
         })
 
@@ -75,7 +75,7 @@ module.exports = {
         } else {
             res.send({
                 updated: true,
-                user: User.simple(updatedUser)
+                user: User.format(updatedUser)
             });
         }
     },

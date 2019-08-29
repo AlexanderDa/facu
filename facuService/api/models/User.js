@@ -139,13 +139,14 @@ module.exports = {
     })
   },
 
-  simple: function (user) {
+  format: function (user) {
     var userObject = {}
     if (Array.isArray(user) == true) {
       userObject = []
       user.forEach(element => {
         userObject.push({
           emailAddress: element.emailAddress,
+          fullName: `${element.lastName} ${element.firstName}`,
           lastName: element.lastName,
           firstName: element.firstName,
           isSuperAdmin: element.isSuperAdmin,
@@ -156,6 +157,7 @@ module.exports = {
     } else {
       userObject = {
         emailAddress: user.emailAddress,
+        fullName: `${element.lastName} ${element.firstName}`,
         lastName: user.lastName,
         firstName: user.firstName,
         isSuperAdmin: user.isSuperAdmin,

@@ -14,7 +14,7 @@ module.exports = {
             res.status = 500;
             res.send({ fetched: false })
         } else {
-            res.send(list);
+            res.send(Professional.format(list));
         }
     },
 
