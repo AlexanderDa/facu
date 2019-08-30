@@ -12,8 +12,7 @@ module.exports = {
         console.log(req.me)
         let list = await User.find();
         if (!list) {
-            res.status = 500;
-            res.send({ fetched: false })
+            res.serverError({ fetched: false })
         } else {
             res.send(User.format(list));
         }
@@ -22,8 +21,7 @@ module.exports = {
     getById: async function (req, res) {
         let user = await User.findOne(req.param('id'));
         if (!user) {
-            res.status = 500;
-            res.send({ fetched: false })
+            res.serverError({ fetched: false })
         } else {
             res.send(User.format(user));
         }
@@ -33,10 +31,9 @@ module.exports = {
     createNewUser: async function (req, res) {
         let newUser = await User.create(req.allParams()).fetch();
         if (!newUser) {
-            res.status = 500;
-            res.send({ saved: false })
+            res.serverError({ saved: false })
         } else {
-            res.send({ saved: true, user: User.format(newUser) });
+            res.send(User.format(newUser));
 
         }
     },
@@ -59,9 +56,7 @@ module.exports = {
 
             req.session.userId = user.id;
 
-            res.send({
-                user: User.format(user)
-            })
+            res.send(User.format(user))
         })
 
 
@@ -70,13 +65,9 @@ module.exports = {
     updateOneUser: async function (req, res) {
         let updatedUser = await User.updateOne(req.param('id'), req.allParams());
         if (!updatedUser) {
-            res.status = 500;
-            res.send({ updated: false })
+            res.serverError({ updated: false })
         } else {
-            res.send({
-                updated: true,
-                user: User.format(updatedUser)
-            });
+            res.send(User.format(updatedUser));
         }
     },
 
@@ -84,13 +75,9 @@ module.exports = {
     deleteOneUser: async function (req, res) {
         let deletedUser = await User.destroyOne(req.param('id'));
         if (!deletedUser) {
-            res.status = 500;
-            res.send({ deleted: false })
+            res.serverError({ deleted: false })
         } else {
-            res.send({
-                deleted: true,
-                deletedUser
-            });
+            res.send(User.format(deletedUser));
         }
     }
 };

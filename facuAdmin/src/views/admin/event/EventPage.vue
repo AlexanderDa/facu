@@ -49,87 +49,104 @@
         <v-chip v-else color="warning" dark>Sin Notificar</v-chip>
       </template>
       <template v-slot:item.action="{ item }">
-        <v-icon small class="mr-2" @click="toEditItem(item)">edit</v-icon>
-        <v-icon small @click="deleteItem(item)">delete</v-icon>
-      </template>
-      <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize">Reset</v-btn>
+        <v-btn :disabled="item.wasNotificated" @click="emitNonification(item)" icon>
+          <v-icon small v-if="!item.wasNotificated">notifications_active</v-icon>
+          <v-icon small v-else>notifications_off</v-icon>
+        </v-btn>
+        <v-btn @click="toEditItem(item)" icon>
+          <v-icon small>edit</v-icon>
+        </v-btn>
+        <v-btn icon>
+          <v-icon small>library_add</v-icon>
+        </v-btn>
+        <v-btn @click="deleteItem(item)" icon>
+          <v-icon small>delete</v-icon>
+        </v-btn>
       </template>
     </v-data-table>
 
-    <v-dialog v-model="dialog" fullscreem max-width="700" persistent>
+    <v-dialog v-model="dialog" scrollable max-width="700px" persistent>
       <form @submit.prevent="submit()">
         <v-card>
           <v-toolbar dark color="secondary">
+            <v-toolbar-title>{{(editedIndex===-1)?'Nuevo':'Editar'}}</v-toolbar-title>
+            <v-spacer />
             <v-btn icon dark @click="close()">
               <v-icon>close</v-icon>
             </v-btn>
-            <v-toolbar-title>{{(editedIndex===-1)?'Nuevo':'Editar'}}</v-toolbar-title>
-            <div class="flex-grow-1"></div>
-            <v-toolbar-items>
-              <v-btn dark text type="submit">Guardar</v-btn>
-            </v-toolbar-items>
           </v-toolbar>
-
-          <v-container grid-list-sm class="pa-4">
-            <v-layout row wrap>
-              <v-flex xs12 md5>
-                <v-layout column>
-                  <v-flex xs12 @click="pickFile" class="v-card">
-                    <v-img v-if="imageData" :src="imageData" aspect-ratio="1.75"></v-img>
-                    <v-img v-else-if="editedItem.image" :src="editedItem.image" aspect-ratio="1.75"></v-img>
-                    <v-img v-else src="@/assets/noimg.svg" aspect-ratio="1.75"></v-img>
-                    <input
-                      type="file"
-                      style="display: none"
-                      ref="image"
-                      accept="image/*"
-                      @change="onFilePicked"
-                    />
-                  </v-flex>
-                  <v-flex xs12 v-if="editedIndex>-1">
-                    <v-card-title class="pa-0">
-                      <v-spacer></v-spacer>
-                      <qrcode :value="editedItem.id" :options="{ width: 150 }"></qrcode>
-                      <v-spacer></v-spacer>
-                    </v-card-title>
-                    <v-card-actions class="pa-0">
-                      <v-spacer></v-spacer>Código generado
-                      <v-spacer></v-spacer>
-                    </v-card-actions>
-                  </v-flex>
-                </v-layout>
-              </v-flex>
-              <v-flex xs12 md7>
-                <v-layout row wrap class="ml-4">
-                  <v-flex xs12>
-                    <v-text-field
-                      label="Nombre del evento"
-                      v-model.trim="editedItem.name"
-                      required
-                    />
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-text-field
-                      label="Fecha del eveto"
-                      v-model.trim="editedItem.eventDate"
-                      return-masked-value
-                      mask="####-##-## ##:##"
-                      @input="()=>{}"
-                      placeholder="Año-mes-día hora:min"
-                      required
-                    />
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-textarea
-                      label="Descripcion del evento"
-                      v-model.trim="editedItem.description"
-                    />
-                  </v-flex>
-                </v-layout>
-              </v-flex>
-            </v-layout>
-          </v-container>
+          <v-divider></v-divider>
+          <v-card-text>
+            <v-container grid-list-sm class="pa-4">
+              <v-layout row wrap>
+                <v-flex xs12 md5>
+                  <v-layout column>
+                    <v-flex xs12 @click="pickFile" class="v-card">
+                      <v-img v-if="imageData" :src="imageData" aspect-ratio="1.75"></v-img>
+                      <v-img
+                        v-else-if="editedItem.image"
+                        :src="editedItem.image"
+                        aspect-ratio="1.75"
+                      ></v-img>
+                      <v-img v-else src="@/assets/noimg.svg" aspect-ratio="1.75"></v-img>
+                      <input
+                        type="file"
+                        style="display: none"
+                        ref="image"
+                        accept="image/*"
+                        @change="onFilePicked"
+                      />
+                    </v-flex>
+                    <v-flex xs12 v-if="editedIndex>-1">
+                      <v-card-title class="pa-0">
+                        <v-spacer></v-spacer>
+                        <qrcode :value="editedItem.id" :options="{ width: 150 }"></qrcode>
+                        <v-spacer></v-spacer>
+                      </v-card-title>
+                      <v-card-actions class="pa-0">
+                        <v-spacer></v-spacer>Código generado
+                        <v-spacer></v-spacer>
+                      </v-card-actions>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+                <v-flex xs12 md7>
+                  <v-layout row wrap class="ml-4">
+                    <v-flex xs12>
+                      <v-text-field
+                        label="Nombre del evento"
+                        v-model.trim="editedItem.name"
+                        required
+                      />
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-text-field
+                        label="Fecha del eveto"
+                        v-model.trim="editedItem.eventDate"
+                        return-masked-value
+                        v-mask="'####-##-## ##:##'"
+                        placeholder="2020-02-20 20:20"
+                        required
+                      />
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-textarea
+                        label="Descripcion del evento"
+                        v-model.trim="editedItem.description"
+                      />
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn type="submit" color="secondary">
+              <v-icon>save</v-icon>Guardar
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </form>
     </v-dialog>

@@ -6,6 +6,7 @@ import vuetify from './plugins/vuetify';
 import './plugins/resource'
 import './plugins/qrcode'
 import './plugins/shortkey'
+import './plugins/mask'
 import 'roboto-fontface/css/roboto/roboto-fontface.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 

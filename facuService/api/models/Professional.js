@@ -99,7 +99,7 @@ module.exports = {
     } else {
       professionalObject = {
         id: professional.id,
-        fullName: `${element.lastName} ${element.firstName}`,
+        fullName: `${professional.lastName} ${professional.firstName}`,
         lastName: professional.lastName,
         firstName: professional.firstName,
         education: professional.education,

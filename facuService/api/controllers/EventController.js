@@ -11,8 +11,7 @@ module.exports = {
     getAll: async function (req, res) {
         let list = await Event.find();
         if (!list) {
-            res.status = 500;
-            res.send({ fetched: false })
+            res.serverError({ fetched: false })
         } else {
             res.send(list);
         }
@@ -39,7 +38,7 @@ module.exports = {
                 }
                 let events = []
                 for (let event of result.rows) {
-                    events.push(getEvent(event));
+                    events.push(event);
                 }
                 res.send(events);
             });
@@ -48,8 +47,7 @@ module.exports = {
     getById: async function (req, res) {
         let element = await Event.findOne(req.param('id'));
         if (!element) {
-            res.status = 500;
-            res.send({ fetched: false })
+            res.serverError({ fetched: false })
         } else {
             res.send(element);
         }
@@ -57,8 +55,7 @@ module.exports = {
 
 
     createNewEvent: async function (req, res) {
-        res.setTimeout(10000);
-
+        res.setTimeout(sails.config.custom.timeout);
         req.file('image').upload(
             { maxBytes: sails.config.custom.maxImageSize },
             async function whenDone(err, uploadedFiles) {
@@ -66,8 +63,7 @@ module.exports = {
                     res.serverError({ err })
                 }
                 if (uploadedFiles.length === 0) {
-                    res.status = 400;
-                    res.send({ saved: false, msg: 'Image not attached' })
+                    res.serverError({ saved: false, msg: 'Image not attached' })
                 }
                 else {
                     let file = uploadedFiles[0]
@@ -86,7 +82,7 @@ module.exports = {
                     }
                     ).fetch();
 
-                    return res.send({ saved: true, newEvent });
+                    return res.send(newEvent);
                 }
 
             });
@@ -95,14 +91,13 @@ module.exports = {
 
 
     updateOneEvent: async function (req, res) {
-        res.setTimeout(10000);
+        res.setTimeout(sails.config.custom.timeout);
 
         req.file('image').upload(
             { maxBytes: sails.config.custom.maxImageSize },
             async function whenDone(err, uploadedFiles) {
                 if (err) {
-                    res.status = 500;
-                    res.send({ saved: false })
+                    res.serverError({ saved: false })
                 }
                 if (uploadedFiles.length === 0) {
                     let updateEvent = await Event.updateOne(req.param('id'), {
@@ -110,10 +105,7 @@ module.exports = {
                         description: req.param('description'),
                         eventDate: req.param('eventDate'),
                     });
-                    res.send({
-                        updated: true,
-                        updateEvent
-                    })
+                    res.send(updateEvent)
                 }
                 else {
                     let file = uploadedFiles[0]
@@ -142,10 +134,7 @@ module.exports = {
                         eventDate: req.param('eventDate'),
                         image: `${sails.config.custom.baseUrl}/file/image/${newImage.id}`
                     });
-                    res.send({
-                        updated: true,
-                        updateEvent
-                    })
+                    res.send(updateEvent)
                 }
 
             });
@@ -156,8 +145,7 @@ module.exports = {
     deleteOneEvent: async function (req, res) {
         let deletedEvent = await Event.destroyOne(req.param('id'));
         if (!deletedEvent) {
-            res.status = 500;
-            res.send({ deleted: false })
+            res.serverError({ deleted: false })
         } else {
             let deletedImage = await Image.destroyOne(deletedEvent.image.split("/")[5]);
             const fs = require('fs');
@@ -166,10 +154,7 @@ module.exports = {
             });
 
 
-            res.send({
-                deleted: true,
-                deletedEvent
-            });
+            res.send(deletedEvent);
         }
     }
 };

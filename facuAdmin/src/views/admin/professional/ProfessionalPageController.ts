@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import swal from 'sweetalert';
-@Component({ name: 'EventPage' })
-export default class EventPageController extends Vue {
+@Component({ name: 'ProfessionalPage' })
+export default class ProfessionalPageController extends Vue {
 
     /*********************************************************
      *                      Attributes                       *
@@ -26,10 +26,12 @@ export default class EventPageController extends Vue {
         this.initialize()
         this.headers = [
             { text: 'Imagen', value: 'image', sortable: false },
-            { text: 'Nombre', value: 'name' },
-            { text: 'Fecha del evento', value: 'eventDate' },
-            { text: 'Evento notificado', value: 'wasNotificated' },
-            { text: 'Actions', value: 'action', sortable: false, align: 'center' },
+            { text: 'Nombre Completo', value: 'fullName' },
+            { text: 'Educación superior', value: 'education' },
+            { text: 'Título universitario', value: 'collegeDegree' },
+            { text: 'Especialización', value: 'specialization' },
+            { text: 'Experiencia', value: 'experience' },
+            { text: 'Actions', value: 'action', sortable: false, align: 'center' }
         ]
     }
 
@@ -40,7 +42,7 @@ export default class EventPageController extends Vue {
 
     private async initialize() {
         // @ts-ignore
-        await Vue.http.get('/api/v1/events')
+        await Vue.http.get('/api/v1/professionals')
             .then((res: any) => {
                 this.modelList = res.body
             })
@@ -49,8 +51,9 @@ export default class EventPageController extends Vue {
 
 
     private async createItem() {
+
         // @ts-ignore
-        await Vue.http.post('/api/v1/event', this.formData())
+        await Vue.http.post('/api/v1/professional', this.formData())
             .then((res: any) => {
                 this.modelList.push(res.body)
             })
@@ -61,7 +64,7 @@ export default class EventPageController extends Vue {
     private async updateItem() {
 
         // @ts-ignore
-        await Vue.http.put(`/api/v1/event/${this.editedItem.id}`, this.formData())
+        await Vue.http.put(`/api/v1/professional/${this.editedItem.id}`, this.formData())
             .then((res: any) => {
                 Object.assign(this.modelList[this.editedIndex], res.body)
             })
@@ -82,7 +85,7 @@ export default class EventPageController extends Vue {
             .then(async (willDelete: boolean) => {
                 if (willDelete) {
                     // @ts-ignore
-                    await Vue.http.delete(`/api/v1/event/${item.id}`)
+                    await Vue.http.delete(`/api/v1/professional/${item.id}`)
                         .then((res: any) => {
                             this.modelList.splice(index, 1)
                         })
@@ -100,23 +103,23 @@ export default class EventPageController extends Vue {
         this.close()
     }
 
-
-
-    private emitNonification(event: any) {
-        console.log(event)
-    }
-
     /*********************************************************
      *                        Functions                      *
      *********************************************************/
-
     private formData() {
         var formData = new FormData();
-        formData.append('name', this.editedItem.name);
-        formData.append('eventDate', this.editedItem.eventDate);
-        if (this.editedItem.description)
-            formData.append('description', this.editedItem.description);
-        formData.append('image', this.imageFile);
+        formData.append('lastName', this.editedItem.lastName);
+        formData.append('firstName', this.editedItem.firstName);
+        if (this.editedItem.education)
+            formData.append('education', this.editedItem.education);
+        if (this.editedItem.collegeDegree)
+            formData.append('collegeDegree', this.editedItem.collegeDegree);
+        if (this.editedItem.specialization)
+            formData.append('specialization', this.editedItem.specialization);
+        if (this.editedItem.experience)
+            formData.append('experience', this.editedItem.experience);
+        if (this.imageFile !== null)
+            formData.append('image', this.imageFile);
         return formData
     }
 
