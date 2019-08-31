@@ -33,8 +33,8 @@ module.exports = {
         if (!newUser) {
             res.serverError({ saved: false })
         } else {
+            await Mailer.sendMail('welcome', newUser);
             res.send(User.format(newUser));
-
         }
     },
 
