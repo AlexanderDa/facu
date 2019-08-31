@@ -45,7 +45,7 @@ module.exports = {
     },
 
     getById: async function (req, res) {
-        let element = await Event.findOne(req.param('id'));
+        let element = await Event.findOne(req.param('id')).populate('activities');
         if (!element) {
             res.serverError({ fetched: false })
         } else {

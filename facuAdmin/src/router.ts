@@ -28,6 +28,11 @@ export default new Router({
           component: () => import('@/views/admin/event/EventPage.vue'),
         },
         {
+          path: 'activities/event/:eventId/',
+          name: 'ActivityPage',
+          component: () => import('@/views/admin/activity/ActivityPage.vue'),
+        },
+        {
           path: 'professional',
           name: 'ProfessionalPage',
           component: () => import('@/views/admin/professional/ProfessionalPage.vue'),
