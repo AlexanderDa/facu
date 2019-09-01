@@ -9,7 +9,6 @@ module.exports = {
 
 
     getAll: async function (req, res) {
-        console.log(req.me)
         let list = await User.find();
         if (!list) {
             res.serverError({ fetched: false })
@@ -29,7 +28,12 @@ module.exports = {
 
 
     createNewUser: async function (req, res) {
-        let newUser = await User.create(req.allParams()).fetch();
+        let newUser = await User.create({
+            emailAddress: req.param('emailAddress'),
+            password: req.param('password'),
+            lastName: req.param('lastName'),
+            firstName: req.param('firstName'),
+        }).fetch();
         if (!newUser) {
             res.serverError({ saved: false })
         } else {
@@ -38,29 +42,6 @@ module.exports = {
         }
     },
 
-
-    login: async function (req, res) {
-        const { emailAddress, password } = req.allParams()
-        const user = await User
-            .findOne({ emailAddress: emailAddress.toLowerCase() })
-            .catch(err => res.serverError({ err }))
-
-        if (!user) return res.forbidden()
-
-
-        User.isValidPassword(password, user, (error, isValid) => {
-            if (error) return res.forbidden()
-            if (!isValid) return res.forbidden()
-
-            sails.log.info(`User \x1b[36m${user.lastName} ${user.firstName}\x1b[0m logged at ${new Date()} `)
-
-            req.session.userId = user.id;
-
-            res.send(User.format(user))
-        })
-
-
-    },
 
     updateOneUser: async function (req, res) {
         let updatedUser = await User.updateOne(req.param('id'), req.allParams());

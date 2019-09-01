@@ -33,8 +33,9 @@
         </v-toolbar>
       </template>
       <template v-slot:item.image="{ item }">
-        <v-avatar>
-          <v-img :src="item.image" />
+        <v-avatar color="grey">
+          <v-img v-if="item.image" :src="item.image" />
+          <v-icon v-else large dark>account_circle</v-icon>
         </v-avatar>
       </template>
     </v-data-table>

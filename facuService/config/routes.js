@@ -17,10 +17,13 @@ module.exports.routes = {
   'GET        /file/image/:id': 'imageController.download',
   'PUT        /file/image/user': 'imageController.userAvatar',
 
+  'GET        /api/v1/account/me': { controller: 'AccountController', action: 'me' },
+  'POST       /api/v1/account/login': { controller: 'AccountController', action: 'login' },
+  'POST       /api/v1/account/logout': { controller: 'AccountController', action: 'logout' },
+
   'GET        /api/v1/users': 'UserController.getAll',
   'GET        /api/v1/user/:id': 'UserController.getById',
   'POST       /api/v1/user/signup': { controller: 'UserController', action: 'createNewUser' },
-  'POST       /api/v1/user/login': { controller: 'UserController', action: 'login' },
   'PUT        /api/v1/user/:id/update/info': { controller: 'UserController', action: 'updateOneUser' },
   'PUT        /api/v1/user/:id/update/password': { controller: 'UserController', action: 'updateOneUser' },
   'DELETE     /api/v1/user/:id': { controller: 'UserController', action: 'deleteOneUser' },

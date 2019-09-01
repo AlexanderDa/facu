@@ -3,11 +3,11 @@ import Router from 'vue-router';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'RootPage',
       component: () => import('@/views/root/RootPage.vue'),
     },
     {
@@ -21,6 +21,7 @@ export default new Router({
       name: 'MainAdminPage',
       component: () => import('@/views/admin/main/MainAdminPage.vue'),
       redirect: { name: 'EventPage' },
+      meta: { onlyLogged: true },
       children: [
         {
           path: 'events',
@@ -46,3 +47,19 @@ export default new Router({
     },
   ],
 });
+
+router.beforeEach((to: any, from: any, next: any) => {
+  to.matched.some((record: any) => {
+    if (record.meta.onlyLogged) {
+      if (localStorage.getItem('isLogged') === 'true') {
+        next()
+      } else {
+        next({ path: '/', })
+      }
+    } else {
+      next()
+    }
+  })
+})
+
+export default router

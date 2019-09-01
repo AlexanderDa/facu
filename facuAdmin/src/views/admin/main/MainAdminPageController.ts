@@ -32,9 +32,18 @@ export default class MainAdminPageController extends Vue {
 
   public changeView(routerName: string): void {
     if (routerName === 'LoginPage') {
-      localStorage.setItem('isLogged', 'false');
-      localStorage.removeItem('userId');
+      this.logout()
     }
     this.$router.push({ name: routerName });
+  }
+
+  private async logout() {
+    //@ts-ignore
+    await Vue.http
+      .post("/api/v1/account/logout")
+      .then(async (res: any) => {
+        await localStorage.setItem("isLogged", 'false');
+      })
+
   }
 }

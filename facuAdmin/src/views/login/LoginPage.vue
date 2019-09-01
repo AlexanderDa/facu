@@ -34,7 +34,7 @@
                     v-model="error"
                     style="min-width:100%;"
                     type="error"
-                  >Usuario o contraseña incorrectos.</v-alert>
+                  >{{errorMsg}}</v-alert>
                 </v-card-actions>
                 <v-card-actions>
                   <v-btn

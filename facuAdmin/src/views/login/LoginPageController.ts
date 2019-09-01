@@ -9,17 +9,34 @@ export default class LoginPage extends Vue {
   public username: string = '';
   public password: string = '';
   public error: boolean = false;
+  public errorMsg: string = '';
   public loading: boolean = false
 
   public async login() {
-    //const user = await this.$store.dispatch('signIn', { emailAddress: this.username, password: this.password })
-    //const users = await this.$store.dispatch('getAll')
-
-  }
-
-  setCookie(name: string, value: string, seconds: number) {
     // @ts-ignore
-    const expires = seconds ? '; expires=' + new Date(new Date().getTime() + seconds * 1000).toGMTString() : ''
-    document.cookie = name + '=' + encodeURIComponent(value) + expires + '; path=/'
+    await Vue.http.post('/api/v1/account/login', {
+      emailAddress: this.username,
+      password: this.password
+    })
+      .then(async (res: any) => {
+        if (res.body.isSuperAdmin === true) {
+          this.$router.push({ name: 'MainAdminPage' })
+          localStorage.setItem('isLogged', 'true');
+        } else {
+          this.error = true
+          this.errorMsg = 'Usted no es "Super Usuario"'
+          // @ts-ignore
+          await Vue.http
+            .post("/api/v1/account/logout")
+            .then(async () => {
+              await localStorage.setItem("isLogged", 'false');
+            })
+        }
+      })
+      .catch((err: any) => {
+        this.error = true
+        this.errorMsg = 'Usuario o contraseña incorrectos.'
+      })
+
   }
 }
