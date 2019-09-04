@@ -59,25 +59,6 @@ module.exports = {
       columnName: 'superadmin'
     },
 
-    passwordResetToken: {
-      type: 'string',
-      columnName: 'pass_reset_token'
-    },
-
-    passwordResetTokenExpiresAt: {
-      type: 'number',
-      columnName: 'pass_reset_token_expires'
-    },
-
-    emailProofToken: {
-      type: 'string',
-      columnName: 'email_proof_token'
-    },
-
-    emailProofTokenExpiresAt: {
-      type: 'number',
-      columnName: 'email_proof_token_expires'
-    },
 
     telephone: {
       type: 'string',
@@ -88,6 +69,19 @@ module.exports = {
       type: 'string',
       maxLength: 150,
       columnType: 'character varying(150)',
+    },
+
+
+    passwordResetToken: {
+      type: 'string',
+      columnName: 'pass_reset_token',
+      allowNull: true
+    },
+
+    passwordResetTokenDate: {
+      type: 'ref',
+      columnType: 'date',
+      columnName: 'pass_reset_token_date'
     },
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

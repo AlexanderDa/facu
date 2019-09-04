@@ -20,6 +20,8 @@ module.exports.routes = {
   'GET        /api/v1/account/me': { controller: 'AccountController', action: 'me' },
   'POST       /api/v1/account/login': { controller: 'AccountController', action: 'login' },
   'POST       /api/v1/account/logout': { controller: 'AccountController', action: 'logout' },
+  'POST       /api/v1/account/password/reset/token': { controller: 'AccountController', action: 'resetPassToken' },
+  'POST       /api/v1/account/password/reset': { controller: 'AccountController', action: 'resetPass' },
 
   'GET        /api/v1/users': 'UserController.getAll',
   'GET        /api/v1/user/:id': 'UserController.getById',
@@ -55,6 +57,10 @@ module.exports.routes = {
   'POST       /api/v1/activity': { controller: 'ActivityController', action: 'createNewActivity' },
   'PUT        /api/v1/activity/:id': { controller: 'ActivityController', action: 'updateOneActivity' },
   'DELETE     /api/v1/activity/:id': { controller: 'ActivityController', action: 'deleteOneActivity' },
+
+
+  'POST       /api/v1/socket/connect': { controller: 'SocketController', action: 'onConnect' },
+  'POST       /api/v1/socket/publish/event': { controller: 'SocketController', action: 'publishEvent' },
 
 
 };

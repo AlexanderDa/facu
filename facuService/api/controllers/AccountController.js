@@ -39,6 +39,60 @@ module.exports = {
         if (req.me)
             res.send({ isLogged: true, me: User.format(req.me) })
         res.send({ isLogged: false })
-    }
+    },
+
+    resetPassToken: async function (req, res) {
+        const { emailAddress } = req.allParams()
+        const foundUser = await User
+            .findOne({ emailAddress: emailAddress.toLowerCase() })
+            .catch(err => res.serverError({ err }))
+
+        if (!foundUser) return res.forbidden()
+        else {
+            const updatedUser = await User.updateOne(foundUser.id, {
+                passwordResetToken: getToken(foundUser.id),
+                passwordResetTokenDate: new Date()
+            });
+            await Mailer.sendMail('passToken', updatedUser);
+            res.ok()
+        }
+
+    },
+
+    resetPass: async function (req, res) {
+        const { token, newPassword } = req.allParams()
+        const foundUser = await User
+            .findOne({ passwordResetToken: token })
+            .catch(err => res.serverError({ err }))
+
+        if (!foundUser) return res.forbidden()
+
+
+
+        if (new Date().toDateString() === new Date(foundUser.passwordResetTokenDate).toDateString()) {
+            const updatedUser = await User.updateOne(foundUser.id, {
+                passwordResetToken: null,
+                password: await Crypto.encrypt(newPassword)
+            });
+            if (updatedUser) res.ok()
+        } else {
+            res.status(401)
+            res.send({ err: 'Invalid Token' })
+        }
+
+    },
 };
 
+
+
+function getToken(userId) {
+    let result = `${userId}`;
+    const date = new Date()
+    const characters = `${date.getFullYear()}${date.getMonth()}${date.getDate()}`
+        + `${date.getHours()}${date.getMinutes()}${date.getSeconds()}${date.getMilliseconds()}`
+    console.log(characters)
+    for (var i = 0; i < 7; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result
+}
