@@ -77,7 +77,7 @@ export default class ActivityPageController extends Vue {
     private async updateItem() {
 
         // @ts-ignore
-        await Vue.http.put(`/api/v1/event/${this.editedItem.id}`, this.editedItem)
+        await Vue.http.put(`/api/v1/activity/${this.editedItem.id}`, this.editedItem)
             .then((res: any) => {
                 Object.assign(this.modelList[this.editedIndex], res.body)
             })

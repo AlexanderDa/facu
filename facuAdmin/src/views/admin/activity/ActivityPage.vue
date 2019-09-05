@@ -121,7 +121,6 @@
                     item-value="id"
                     label="Profesional a cargo"
                     clearable
-                    required
                   ></v-autocomplete>
                 </v-flex>
                 <v-flex xs6>
@@ -172,7 +171,6 @@
                   />
                 </v-flex>
               </v-layout>
-              {{editedItem}}
             </v-container>
           </v-card-text>
           <v-divider></v-divider>

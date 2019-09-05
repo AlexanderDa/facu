@@ -3,6 +3,8 @@
  * @docs        :: https://sailsjs.com/docs/concepts/extending-sails/hooks
  */
 
+
+
 module.exports = function defineCustomHook(sails) {
 
   return {
@@ -10,7 +12,7 @@ module.exports = function defineCustomHook(sails) {
     /**
      * Runs when a Sails app loads/lifts.
      */
- 
+
 
     routes: {
 
@@ -24,9 +26,28 @@ module.exports = function defineCustomHook(sails) {
       before: {
         '/*': {
           skipAssets: true,
-          fn: async function(req, res, next){
+          fn: async function (req, res, next) {
 
             var url = require('url');
+
+            //Print request info
+            switch (req.method) {
+              case 'GET':
+                console.log(`\x1b[36m\x1b[1mGET\x1b[0m\t\x1b[94m${req.url}\x1b[0m`)
+                break;
+              case 'POST':
+                console.log(`\x1b[32m\x1b[1mPOST\x1b[0m\t\x1b[94m${req.url}\x1b[0m`)
+                break;
+              case 'PUT':
+                console.log(`\x1b[33m\x1b[1mPUT\x1b[0m\t\x1b[94m${req.url}\x1b[0m`)
+                break;
+              case 'DELETE':
+                console.log(`\x1b[31m\x1b[1mDELETE\x1b[0m\t\x1b[94m${req.url}\x1b[0m`)
+                break;
+              default:
+                console.log(`\x1b[35m\x1b[1m${req.method}\x1b[0m\t\x1b[94m${req.url}\x1b[0m`)
+                break;
+            }
 
             // First, if this is a GET request (and thus potentially a view),
             // attach a couple of guaranteed locals.
@@ -65,10 +86,10 @@ module.exports = function defineCustomHook(sails) {
             var configuredBaseHostname;
             try {
               configuredBaseHostname = url.parse(sails.config.custom.baseUrl).host;
-            } catch (unusedErr) { /*…*/}
+            } catch (unusedErr) { /*…*/ }
             if ((sails.config.environment === 'staging' || sails.config.environment === 'production') && !req.isSocket && req.method === 'GET' && req.hostname !== configuredBaseHostname) {
-              sails.log.info('Redirecting GET request from `'+req.hostname+'` to configured expected host (`'+configuredBaseHostname+'`)...');
-              return res.redirect(sails.config.custom.baseUrl+req.url);
+              sails.log.info('Redirecting GET request from `' + req.hostname + '` to configured expected host (`' + configuredBaseHostname + '`)...');
+              return res.redirect(sails.config.custom.baseUrl + req.url);
             }//•
 
             // No session? Proceed as usual.
@@ -87,7 +108,7 @@ module.exports = function defineCustomHook(sails) {
             // wipe the user id from the requesting user agent's session,
             // and then send the "unauthorized" response.
             if (!loggedInUser) {
-              sails.log.warn('Somehow, the user record for the logged-in user (`'+req.session.userId+'`) has gone missing....');
+              sails.log.warn('Somehow, the user record for the logged-in user (`' + req.session.userId + '`) has gone missing....');
               delete req.session.userId;
               return res.unauthorized();
             }
@@ -109,19 +130,19 @@ module.exports = function defineCustomHook(sails) {
             // to the current timestamp.
             //
             // (Note: As an optimization, this is run behind the scenes to avoid adding needless latency.)
-            var MS_TO_BUFFER = 60*1000;
+            var MS_TO_BUFFER = 60 * 1000;
             var now = Date.now();
             if (loggedInUser.lastSeenAt < now - MS_TO_BUFFER) {
-              User.updateOne({id: loggedInUser.id})
-              .set({ lastSeenAt: now })
-              .exec((err)=>{
-                if (err) {
-                  sails.log.error('Background task failed: Could not update user (`'+loggedInUser.id+'`) with a new `lastSeenAt` timestamp.  Error details: '+err.stack);
-                  return;
-                }//•
-                sails.log.verbose('Updated the `lastSeenAt` timestamp for user `'+loggedInUser.id+'`.');
-                // Nothing else to do here.
-              });//_∏_  (Meanwhile...)
+              User.updateOne({ id: loggedInUser.id })
+                .set({ lastSeenAt: now })
+                .exec((err) => {
+                  if (err) {
+                    sails.log.error('Background task failed: Could not update user (`' + loggedInUser.id + '`) with a new `lastSeenAt` timestamp.  Error details: ' + err.stack);
+                    return;
+                  }//•
+                  sails.log.verbose('Updated the `lastSeenAt` timestamp for user `' + loggedInUser.id + '`.');
+                  // Nothing else to do here.
+                });//_∏_  (Meanwhile...)
             }//ﬁ
 
 
