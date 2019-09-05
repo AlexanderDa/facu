@@ -1,7 +1,12 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import swal from 'sweetalert';
-@Component({ name: 'ProfessionalPage' })
+
+import WorkPage from '@/views/admin/work/WorkPage.vue'
+@Component({
+    name: 'ProfessionalPage',
+    components: { WorkPage }
+})
 export default class ProfessionalPageController extends Vue {
 
     /*********************************************************
@@ -13,6 +18,7 @@ export default class ProfessionalPageController extends Vue {
     private modelList: any[] = []
     private editedIndex: number = -1
     private editedItem: any = {}
+    private clearWorks: boolean = false;
 
     //Image preview
     private imageData: any = null
@@ -56,6 +62,16 @@ export default class ProfessionalPageController extends Vue {
         await Vue.http.post('/api/v1/professional', this.formData())
             .then((res: any) => {
                 this.modelList.push(res.body)
+                if (this.editedItem.works) {
+                    const works = this.editedItem.works
+                    works.forEach(async (element: any) => {
+                        // @ts-ignore
+                        await Vue.http.post('/api/v1/work', {
+                            professional: res.body.id,
+                            name: element.name
+                        })
+                    });
+                }
             })
             .catch((err: any) => console.log(err))
     }
@@ -135,6 +151,7 @@ export default class ProfessionalPageController extends Vue {
         setTimeout(() => {
             this.editedItem = {}
             this.editedIndex = -1
+            this.clearWorks = !this.clearWorks
             this.imageData = null
             this.imageFile = null
         }, 300)

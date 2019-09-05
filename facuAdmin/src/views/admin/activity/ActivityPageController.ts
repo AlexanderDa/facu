@@ -20,9 +20,6 @@ export default class ActivityPageController extends Vue {
         startTime: ''
     }
 
-    //Image preview
-    private imageData: any = null
-    private imageFile: any = null
 
     /*********************************************************
      *                     Initializable                     *
@@ -112,7 +109,7 @@ export default class ActivityPageController extends Vue {
 
     submit() {
         if (this.editedIndex > -1) {
-          this.updateItem()
+            this.updateItem()
         } else {
             this.createItem();
         }
@@ -152,38 +149,6 @@ export default class ActivityPageController extends Vue {
                 startTime: ''
             }
             this.editedIndex = -1
-            this.imageData = null
-            this.imageFile = null
         }, 300)
     }
-
-
-
-    /*********************************************************
-     *                      Image Preview                    *
-     *********************************************************/
-
-    // when a image is selected
-    pickFile() {
-        // @ts-ignore
-        this.$refs.image.click()
-    }
-
-    onFilePicked(event: any) {
-        this.imageFile = event.target.files[0]
-
-        const files = event.target.files
-        if (this.imageFile !== undefined) {
-            const fr = new FileReader()
-            fr.readAsDataURL(files[0])
-            fr.addEventListener('load', () => {
-                this.imageData = fr.result
-                this.imageFile = files[0]
-            })
-        } else {
-            this.imageFile = ''
-            this.imageData = ''
-        }
-    }
-
 }

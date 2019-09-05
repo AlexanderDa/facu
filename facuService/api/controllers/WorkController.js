@@ -6,13 +6,12 @@
  */
 
 module.exports = {
-  
+
 
     getAll: async function (req, res) {
-        let list = await Work.find();
+        let list = await Work.find({ professional: req.param('professionalId') });
         if (!list) {
-            res.status = 500;
-            res.send({ fetched: false })
+            res.serverError({ fetched: false })
         } else {
             res.send(list);
         }
@@ -21,8 +20,7 @@ module.exports = {
     getById: async function (req, res) {
         let list = await Work.findOne(req.param('id'));
         if (!list) {
-            res.status = 500;
-            res.send({ fetched: false })
+            res.serverError({ fetched: false })
         } else {
             res.send(list);
         }
@@ -32,35 +30,26 @@ module.exports = {
     createNewWork: async function (req, res) {
         let newWork = await Work.create(req.allParams()).fetch();
         if (!newWork) {
-            res.status = 500;
-            res.send({ saved: false })
+            ({ saved: false })
         } else {
-            res.send({ saved: true, newWork });
+            res.send(newWork);
 
         }
     },
     updateOneWork: async function (req, res) {
         let updatedWork = await Work.updateOne(req.param('id'), req.allParams());
         if (!updatedWork) {
-            res.status = 500;
-            res.send({ updated: false })
+            res.serverError({ updated: false })
         } else {
-            res.send({
-                updated: true,
-                updatedWork
-            });
+            res.send(updatedWork);
         }
     },
     deleteOneWork: async function (req, res) {
         let deletedWork = await Work.destroyOne(req.param('id'));
         if (!deletedWork) {
-            res.status = 500;
-            res.send({ deleted: false })
+            res.serverError({ deleted: false })
         } else {
-            res.send({
-                deleted: true,
-                deletedWork
-            });
+            res.send(deletedWork);
         }
     }
 };

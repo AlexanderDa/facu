@@ -136,8 +136,13 @@
                     max="75"
                   />
                 </v-flex>
-
-                <!--v-flex xs12 class="pink">{{editedItem}}</v-flex-->
+                <v-flex xs12>
+                  <WorkPage
+                    :professional="editedItem.id"
+                    :clear="clearWorks"
+                    v-model.trim="editedItem.works"
+                  />
+                </v-flex>
               </v-layout>
             </v-container>
           </v-card-text>

@@ -77,12 +77,6 @@ module.exports = {
 
 
     updateOneProfessional: async function (req, res) {
-        /*let updatedProfessional = await Professional.updateOne(req.param('id'), req.allParams());
-        if (!updatedProfessional) {
-            res.serverError({ updated: false })
-        } else {
-            res.send(Professional.format(updatedProfessional));
-        }*/
         res.setTimeout(sails.config.custom.timeout);
         req.file('image').upload(
             { maxBytes: sails.config.custom.maxImageSize },
