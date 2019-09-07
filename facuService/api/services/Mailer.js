@@ -21,7 +21,7 @@ module.exports.sendMail = async function (template, user) {
         html: '',
         subject: ''
     }
-    var html = ''
+    
     switch (template) {
         case 'welcome':
             mailconfig.subject = 'Bienvenido a FacuEvent'

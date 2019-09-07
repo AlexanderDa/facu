@@ -27,7 +27,7 @@ export default class LoginPage extends Vue {
           this.errorMsg = 'Usted no es "Super Usuario"'
           // @ts-ignore
           await Vue.http
-            .post("/api/v1/account/logout")
+            .put("/api/v1/account/logout")
             .then(async () => {
               await localStorage.setItem("isLogged", 'false');
             })

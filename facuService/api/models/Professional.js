@@ -93,7 +93,8 @@ module.exports = {
           collegeDegree: element.collegeDegree,
           specialization: element.specialization,
           experience: element.experience,
-          image: element.image
+          image: element.image,
+          works: element.works
         })
       });
     } else {
@@ -106,7 +107,8 @@ module.exports = {
         collegeDegree: professional.collegeDegree,
         specialization: professional.specialization,
         experience: professional.experience,
-        image: professional.image
+        image: professional.image,
+        works: professional.works
       }
     }
     return professionalObject

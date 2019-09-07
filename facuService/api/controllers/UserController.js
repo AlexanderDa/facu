@@ -28,28 +28,17 @@ module.exports = {
 
 
     createNewUser: async function (req, res) {
-        let newUser = await User.create({
-            emailAddress: req.param('emailAddress'),
-            password: req.param('password'),
-            lastName: req.param('lastName'),
-            firstName: req.param('firstName'),
-        }).fetch();
-        if (!newUser) {
-            res.serverError({ saved: false })
-        } else {
-            await Mailer.sendMail('welcome', newUser);
-            res.send(User.format(newUser));
-        }
-    },
+        let { emailAddress, password, lastName, firstName } = req.allParams()
+        emailAddress = emailAddress.toLowerCase();
+        const newUser = await User.create({ emailAddress, password, lastName, firstName })
+            .intercept('E_UNIQUE', 'emailAlreadyInUse')
+            .intercept({ name: 'UsageError' }, 'invalid')
+            .fetch();
 
+        await Mailer.sendMail('welcome', newUser)
+        req.session.userId = newUser.id;
 
-    updateOneUser: async function (req, res) {
-        let updatedUser = await User.updateOne(req.param('id'), req.allParams());
-        if (!updatedUser) {
-            res.serverError({ updated: false })
-        } else {
-            res.send(User.format(updatedUser));
-        }
+        res.send({ logged: true, user: User.format(newUser) })
     },
 
 
