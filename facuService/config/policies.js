@@ -10,13 +10,47 @@
 
 module.exports.policies = {
 
-  /***************************************************************************
-  *                                                                          *
-  * Default policy for all controllers and actions, unless overridden.       *
-  * (`true` allows public access)                                            *
-  *                                                                          *
-  ***************************************************************************/
+  '*': 'logged',
+  //Only for superAdmin
 
-  // '*': true,
+  ProfessionalController: {
+    createNewProfessional: 'superadmin',
+    updateOneProfessional: 'superadmin',
+    deleteOneProfessional: 'superadmin'
+  },
+
+  WorkController: {
+    createNewWork: 'superadmin',
+    updateOneWork: 'superadmin',
+    deleteOneWork: 'superadmin'
+  },
+
+  EventController: {
+    createNewEvent: 'superadmin',
+    updateOneEvent: 'superadmin',
+    deleteOneEvent: 'superadmin'
+  },
+
+  ActivityController: {
+    createNewActivity: 'superadmin',
+    updateOneActivity: 'superadmin',
+    deleteOneActivity: 'superadmin'
+  },
+
+
+  // Public paths
+  ImageController: {
+    download: true
+  },
+
+  UserController: {
+    createNewUser: true
+  },
+
+  AccountController: {
+    login: true,
+    resetPass: true,
+    resetPassToken: true,
+  }
 
 };

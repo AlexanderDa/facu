@@ -40,7 +40,7 @@ export default class MainAdminPageController extends Vue {
   private async logout() {
     //@ts-ignore
     await Vue.http
-      .post("/api/v1/account/logout")
+      .put("/api/v1/account/logout")
       .then(async (res: any) => {
         await localStorage.setItem("isLogged", 'false');
       })
