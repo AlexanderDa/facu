@@ -103,7 +103,10 @@ export default class EventPageController extends Vue {
 
 
     private emitNonification(event: any) {
-        console.log(event)
+        //@ts-ignore
+        this.$io.socket.post('/api/v1/socket/publish/event', { event }, function (data: any, data2: any) {
+            event.wasNotificated = data.wasNotificated
+        });
     }
 
     /*********************************************************

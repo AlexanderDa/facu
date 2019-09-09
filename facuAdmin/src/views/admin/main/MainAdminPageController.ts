@@ -28,7 +28,12 @@ export default class MainAdminPageController extends Vue {
     { icon: 'logout', title: 'Salir', routerName: 'LoginPage' },
   ];
 
-  // public created(): void { }
+  public created(): void {
+    //@ts-ignore
+    this.$io.socket.post('/api/v1/socket/connect', '', function (resData: any, jwres: any) {
+      console.log(`connected ${resData}`);
+    });
+  }
 
   public changeView(routerName: string): void {
     if (routerName === 'LoginPage') {

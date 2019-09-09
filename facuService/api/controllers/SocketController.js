@@ -8,11 +8,12 @@
 module.exports = {
 
     onConnect: function (req, res) {
-        if (req.me !== undefined) {
-            sails.log(`User ${req.me.lastName} ${req.me.firstName} connected.`)
+        if (req.me) {
             sails.sockets.join(req, 'new-event-channel');
+            res.ok()
+        } else {
+            res.unauthorized();
         }
-        return res.ok();
     },
 
     publishEvent: async function (req, res) {
@@ -21,7 +22,7 @@ module.exports = {
         if (updatedEvent) {
             sails.log(`Event published: ${event.name}`)
             sails.sockets.broadcast('new-event-channel', 'new-event', event);
-            return res.ok();
+            res.send({ wasNotificated: updatedEvent.wasNotificated });
         }
     }
 
