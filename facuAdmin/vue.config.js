@@ -1,5 +1,5 @@
-const WorkboxPlugin = require('workbox-webpack-plugin');
-const path = require('path');
+const WorkboxPlugin = require('workbox-webpack-plugin')
+const path = require('path')
 
 module.exports = {
   productionSourceMap: false,
@@ -7,15 +7,15 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        vue$: 'vue/dist/vue.esm.js',
-      },
+        vue$: 'vue/dist/vue.esm.js'
+      }
     },
 
     plugins: [
       new WorkboxPlugin.InjectManifest({
-        swSrc: path.join(__dirname, 'sw.js'),
-      }),
-    ],
+        swSrc: path.join(__dirname, 'sw.js')
+      })
+    ]
   },
 
   lintOnSave: 'error',
@@ -28,9 +28,9 @@ module.exports = {
         target: 'http://localhost:1337/api',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': '',
-        },
-      },
-    },
-  },
-};
+          '^/api': ''
+        }
+      }
+    }
+  }
+}
