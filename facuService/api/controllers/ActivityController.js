@@ -11,8 +11,7 @@ module.exports = {
     getAll: async function (req, res) {
         let list = await Activity.find();
         if (!list) {
-            res.status = 500;
-            res.send({ fetched: false })
+            res.serverError({ fetched: false })
         } else {
             res.send(list);
         }
@@ -22,8 +21,7 @@ module.exports = {
 
         let list = await Activity.find({ event: req.param('eventId') });
         if (!list) {
-            res.status = 500;
-            res.send({ fetched: false })
+            res.serverError({ fetched: false })
         } else {
             res.send(list);
         }
@@ -32,8 +30,7 @@ module.exports = {
     getById: async function (req, res) {
         let activity = await Activity.findOne(req.param('id'));
         if (!activity) {
-            res.status = 500;
-            res.send({ fetched: false })
+            res.serverError({ fetched: false })
         } else {
             res.send(activity);
         }
@@ -43,35 +40,26 @@ module.exports = {
     createNewActivity: async function (req, res) {
         let newActivity = await Activity.create(req.allParams()).fetch();
         if (!newActivity) {
-            res.status = 500;
-            res.send({ saved: false })
+            res.serverError({ saved: false })
         } else {
-            res.send({ saved: true, newActivity });
+            res.send(newActivity);
 
         }
     },
     updateOneActivity: async function (req, res) {
         let updatedActivity = await Activity.updateOne(req.param('id'), req.allParams());
         if (!updatedActivity) {
-            res.status = 500;
-            res.send({ updated: false })
+            res.serverError({ updated: false })
         } else {
-            res.send({
-                updated: true,
-                updatedActivity
-            });
+            res.send(updatedActivity);
         }
     },
     deleteOneActivity: async function (req, res) {
         let deletedActivity = await Activity.destroyOne(req.param('id'));
         if (!deletedActivity) {
-            res.status = 500;
-            res.send({ deleted: false })
+            res.serverError({ deleted: false })
         } else {
-            res.send({
-                deleted: true,
-                deletedActivity
-            });
+            res.send(deletedActivity);
         }
     }
 };

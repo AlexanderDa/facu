@@ -78,5 +78,40 @@ module.exports = {
 
   },
 
+  format: function (professional) {
+    var professionalObject = {}
+    if (Array.isArray(professional) === true) {
+      professionalObject = []
+      professional.forEach(element => {
+
+        professionalObject.push({
+          id: element.id,
+          fullName: `${element.lastName} ${element.firstName}`,
+          lastName: element.lastName,
+          firstName: element.firstName,
+          education: element.education,
+          collegeDegree: element.collegeDegree,
+          specialization: element.specialization,
+          experience: element.experience,
+          image: element.image,
+          works: element.works
+        })
+      });
+    } else {
+      professionalObject = {
+        id: professional.id,
+        fullName: `${professional.lastName} ${professional.firstName}`,
+        lastName: professional.lastName,
+        firstName: professional.firstName,
+        education: professional.education,
+        collegeDegree: professional.collegeDegree,
+        specialization: professional.specialization,
+        experience: professional.experience,
+        image: professional.image,
+        works: professional.works
+      }
+    }
+    return professionalObject
+  }
 };
 

@@ -19,6 +19,14 @@ module.exports = {
       maxLength: 250,
       columnType: 'character varying(250)',
     },
+
+    activityDate: {
+      type: 'ref',
+      columnType: 'date',
+      columnName: 'activity_date',
+      required:true
+    },
+
     startTime: {
       type: 'string',
       maxLength: 5,
@@ -31,15 +39,14 @@ module.exports = {
       type: 'string',
       maxLength: 5,
       columnType: 'character varying(5)',
-      columnName: 'finish_time',
-      required: true
+      columnName: 'finish_time'
     },
 
     type: {
       type: 'ref',
       columnType: 'character varying(15)',
       maxLength: 15,
-      isIn: ['conferencia', 'taller'],
+      isIn: ['Conferencia', 'Taller'],
       required: true
     },
 

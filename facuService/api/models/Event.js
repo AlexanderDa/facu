@@ -23,8 +23,9 @@ module.exports = {
 
     publishDate: {
       type: 'ref',
-      columnType: 'date default current_date',
-      columnName: 'publish_date'
+      columnType: 'date',
+      columnName: 'publish_date',
+      defaultsTo: new Date()
     },
 
     eventDate: {
@@ -32,7 +33,7 @@ module.exports = {
       columnType: 'timestamp',
       columnName: 'event_date',
       example: '2019-01-10 10:30',
-      //required: true
+      required: true
     },
     
     wasNotificated: {
@@ -45,7 +46,7 @@ module.exports = {
       type: 'string',
       maxLength: 150,
       columnType: 'character varying(150)',
-      //required: true
+      required: true
     },
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
