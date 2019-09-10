@@ -18,39 +18,40 @@ module.exports = {
       unique: true,
       isEmail: true,
       maxLength: 200,
+      columnType: 'character varying(200)',
       example: 'mary.sue@example.com',
       columnName: 'email',
     },
 
     emailStatus: {
       type: 'string',
-      isIn: ['unconfirmed', 'change-requested', 'confirmed'],
+      isIn: ['deleted', 'confirmed'],
       defaultsTo: 'confirmed',
-      columnName: 'email_status'
-    },
-
-    emailChangeCandidate: {
-      type: 'string',
-      isEmail: true,
-      columnName: 'email_change_candidate'
+      maxLength: 15,
+      columnType: 'character varying(15)',
+      columnName: 'email_status',
+      
     },
 
     password: {
       type: 'string',
       required: true,
       protect: true,
+      required: true
     },
 
     lastName: {
       type: 'string',
       required: true,
       maxLength: 60,
+      columnType: 'character varying(60)',
       columnName: 'last_name'
     },
     firstName: {
       type: 'string',
       required: true,
       maxLength: 60,
+      columnType: 'character varying(60)',
       columnName: 'first_name'
     },
 
@@ -62,7 +63,8 @@ module.exports = {
 
     telephone: {
       type: 'string',
-      maxLength: 15
+      maxLength: 15,
+      columnType: 'character varying(15)',
     },
 
     image: {

@@ -12,8 +12,8 @@ module.exports = {
 
     name: {
       type: 'string',
-      maxLength: 150,
-      columnType: 'character varying(150)',
+      maxLength: 200,
+      columnType: 'character varying(200)',
       required: true
     },
 
@@ -25,7 +25,7 @@ module.exports = {
       type: 'ref',
       columnType: 'date',
       columnName: 'publish_date',
-      defaultsTo: new Date()
+      defaultsTo: new Date(),
     },
 
     eventDate: {
