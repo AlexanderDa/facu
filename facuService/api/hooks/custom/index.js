@@ -29,25 +29,6 @@ module.exports = function defineCustomHook(sails) {
 
             var url = require('url');
 
-            //Print request info
-            switch (req.method) {
-              case 'GET':
-                console.log(`\x1b[36m\x1b[1mGET\x1b[0m\t\x1b[94m${req.url}\x1b[0m`)
-                break;
-              case 'POST':
-                console.log(`\x1b[32m\x1b[1mPOST\x1b[0m\t\x1b[94m${req.url}\x1b[0m`)
-                break;
-              case 'PUT':
-                console.log(`\x1b[33m\x1b[1mPUT\x1b[0m\t\x1b[94m${req.url}\x1b[0m`)
-                break;
-              case 'DELETE':
-                console.log(`\x1b[31m\x1b[1mDELETE\x1b[0m\t\x1b[94m${req.url}\x1b[0m`)
-                break;
-              default:
-                console.log(`\x1b[35m\x1b[1m${req.method}\x1b[0m\t\x1b[94m${req.url}\x1b[0m`)
-                break;
-            }
-
             // First, if this is a GET request (and thus potentially a view),
             // attach a couple of guaranteed locals.
             if (req.method === 'GET') {

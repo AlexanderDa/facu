@@ -6,6 +6,8 @@
   "author": "Alexander David ",
   "license": "MIT",
   "scripts": {
+    "start": "cd facuService && yarn start",
+    "install": "cd facuService && yarn install",
     "dev": "cd facuService && yarn dev & cd facuAdmin && yarn serve",
     "dev:b": "cd facuService && yarn dev ",
     "dev:f": "cd facuAdmin && yarn serve",
@@ -15,9 +17,10 @@
     "add:b": "cd facuService && yarn add",
     "add:f": "cd facuAdmin && yarn add",
     "lint": "cd facuAdmin && yarn lint",
-    "build": "cd facuAdmin && yarn build"
+    "build:f": "cd facuAdmin && yarn build"
   },
   "engines": {
-    "node": "^10.16"
+    "node": "^10.16",
+    "yarn": "^1.17"
   }
 }
