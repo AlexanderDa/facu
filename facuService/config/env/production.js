@@ -251,8 +251,7 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     onlyAllowOrigins: [
-      //   'https://example.com',
-      //   'https://staging.example.com',
+      process.env.APP_URL,
     ],
 
 

@@ -42,7 +42,7 @@ export default class EventPageController extends Vue {
         .then((res: any) => {
           this.modelList = res.body
         })
-        .catch((err: any) => console.log(err))
+        .catch(() => { this.$store.commit('errorAlert', { msg: 'No se pueden cargar los datos.' }) })
     }
 
     private async createItem () {
@@ -50,8 +50,9 @@ export default class EventPageController extends Vue {
       await Vue.http.post('/api/v1/event', this.formData())
         .then((res: any) => {
           this.modelList.push(res.body)
+          this.$store.commit('successAlert', { msg: 'Elemento guardado con éxito.' })
         })
-        .catch((err: any) => console.log(err))
+        .catch(() => { this.$store.commit('errorAlert', { msg: 'El registro no se pudo guardar.' }) })
     }
 
     private async updateItem () {
@@ -59,8 +60,9 @@ export default class EventPageController extends Vue {
       await Vue.http.put(`/api/v1/event/${this.editedItem.id}`, this.formData())
         .then((res: any) => {
           Object.assign(this.modelList[this.editedIndex], res.body)
+          this.$store.commit('successAlert', { msg: 'Elemento actualizado con éxito.' })
         })
-        .catch((err: any) => console.log(err))
+        .catch(() => { this.$store.commit('errorAlert', { msg: 'El registro no se pudo actualizar.' }) })
     }
 
     private async deleteItem (item: any) {
@@ -79,8 +81,9 @@ export default class EventPageController extends Vue {
             await Vue.http.delete(`/api/v1/event/${item.id}`)
               .then((res: any) => {
                 this.modelList.splice(index, 1)
+                this.$store.commit('successAlert', { msg: 'Elemento eliminado con éxito.' })
               })
-              .catch((err: any) => console.log(err))
+              .catch(() => { this.$store.commit('errorAlert', { msg: 'El registro no se pudo eliminar.' }) })
           }
         })
     }

@@ -1,7 +1,18 @@
 <template>
   <div id="app">
     <v-app id="inspire">
-      <!--v-progress-linear indeterminate color="secondary" style="z-index:999!important" /-->
+
+      <v-alert
+      style="z-index:999;position:absolute;top:10px;right:10px"
+      v-model="$store.state.alert.show"
+      :type="$store.state.alert.type"
+      transition="scroll-x-reverse-transition"
+      width="400"
+      dismissible
+      border="left"
+    >
+      <p v-if="$store.state.alert.title"><b>{{$store.state.alert.title}}</b></p>{{$store.state.alert.msg}}
+    </v-alert>
       <v-navigation-drawer v-model="drawer" app clipped>
         <v-list dense>
           <v-list-item

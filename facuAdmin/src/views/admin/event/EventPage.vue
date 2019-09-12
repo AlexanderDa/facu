@@ -100,7 +100,7 @@
                     <v-flex xs12 v-if="editedIndex>-1">
                       <v-card-title class="pa-0">
                         <v-spacer></v-spacer>
-                        <qrcode :value="editedItem.id" :options="{ width: 150 }"></qrcode>
+                        <qrcode :value="editedItem.id" :options="{ width: 200 }"></qrcode>
                         <v-spacer></v-spacer>
                       </v-card-title>
                       <v-card-actions class="pa-0">

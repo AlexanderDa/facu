@@ -1,5 +1,8 @@
 <template>
-  <router-view />
+  <div>
+    <vue-progress-bar/>
+    <router-view />
+  </div>
 </template>
 
 <script lang="ts">
@@ -10,7 +13,6 @@ export default class MainAdminPageController extends Vue {
   public created (): void {
     // @ts-ignore
     this.$io.socket.on('new-event', function (event) {
-      console.log(`Event created: ${event.name}`)
       if ('Notification' in window) {
         let ask = Notification.requestPermission()
         ask.then((permission = 'granted') => {

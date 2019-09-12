@@ -35,6 +35,6 @@ export default class UserPageController extends Vue {
         .then((res: any) => {
           this.modelList = res.body
         })
-        .catch((err: any) => console.log(err))
+        .catch(() => { this.$store.commit('errorAlert', { msg: 'No se pueden cargar los datos.' }) })
     }
 }

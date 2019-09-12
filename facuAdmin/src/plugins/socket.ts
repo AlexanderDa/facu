@@ -8,7 +8,7 @@ import sailsIOClient from 'sails.io.js'
 
 const io = sailsIOClient(socketIOClient)
 io.sails.url = (process.env.NODE_ENV === 'production')
-  ? 'https://facuevent.herokuapp.com/'
+  ? process.env.APP_URL
   : 'http://localhost:1337'
 io.sails.environment = process.env.NODE_ENV || 'development'
 Vue.use(VueSails, io)

@@ -50,7 +50,6 @@
           </v-flex>
         </v-layout>
       </v-container>
-      {{$store.state}}
     </v-content>
   </v-app>
 </template>

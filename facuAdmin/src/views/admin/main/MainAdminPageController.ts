@@ -31,7 +31,8 @@ export default class MainAdminPageController extends Vue {
   public created (): void {
     // @ts-ignore
     this.$io.socket.post('/api/v1/socket/connect', '', function (resData: any, jwres: any) {
-      console.log(`connected ${resData}`)
+      // @ts-nocheck
+      console.info(`connected ${resData}`)
     })
   }
 

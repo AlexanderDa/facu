@@ -40,6 +40,7 @@ export default class WorkPageController extends Vue {
           .then((res: any) => {
             this.modelList = res.body
           })
+          .catch(() => { this.$store.commit('errorAlert', { msg: 'No se pueden cargar los datos.' }) })
       }
     }
 
@@ -52,8 +53,9 @@ export default class WorkPageController extends Vue {
         })
           .then((res: any) => {
             this.modelList.push(res.body)
+            this.$store.commit('successAlert', { msg: 'Elemento guardado con éxito.' })
           })
-          .catch((err: any) => console.log(err))
+          .catch(() => { this.$store.commit('errorAlert', { msg: 'El registro no se pudo guardar.' }) })
       } else {
         this.modelList.push(this.editedItem)
         this.emitNews()
@@ -66,8 +68,9 @@ export default class WorkPageController extends Vue {
         await Vue.http.put(`/api/v1/work/${this.editedItem.id}`, this.editedItem)
           .then((res: any) => {
             Object.assign(this.modelList[this.editedIndex], res.body)
+            this.$store.commit('successAlert', { msg: 'Elemento actualizado con éxito.' })
           })
-          .catch((err: any) => console.log(err))
+          .catch(() => { this.$store.commit('errorAlert', { msg: 'El registro no se pudo actualizar.' }) })
       } else {
         Object.assign(this.modelList[this.editedIndex], this.editedItem)
         this.emitNews()
@@ -92,8 +95,9 @@ export default class WorkPageController extends Vue {
               await Vue.http.delete(`/api/v1/work/${item.id}`)
                 .then((res: any) => {
                   this.modelList.splice(index, 1)
+                  this.$store.commit('successAlert', { msg: 'Elemento eliminado con éxito.' })
                 })
-                .catch((err: any) => console.log(err))
+                .catch(() => { this.$store.commit('errorAlert', { msg: 'El registro no se pudo eliminar.' }) })
             }
           })
       } else {

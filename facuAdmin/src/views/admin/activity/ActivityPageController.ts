@@ -44,7 +44,7 @@ export default class ActivityPageController extends Vue {
       .then((res: any) => {
         this.professionals = res.body
       })
-      .catch((err: any) => console.log(err))
+      .catch(() => this.$router.push({ name: 'EventPage' }))
   }
 
   private async initialize () {
@@ -63,8 +63,9 @@ export default class ActivityPageController extends Vue {
     await Vue.http.post('/api/v1/activity', this.editedItem)
       .then((res: any) => {
         this.modelList.push(res.body)
+        this.$store.commit('successAlert', { msg: 'Elemento guardado con éxito.' })
       })
-      .catch((err: any) => console.log(err))
+      .catch(() => { this.$store.commit('errorAlert', { msg: 'El registro no se pudo guardar.' }) })
   }
 
   private async updateItem () {
@@ -72,8 +73,9 @@ export default class ActivityPageController extends Vue {
     await Vue.http.put(`/api/v1/activity/${this.editedItem.id}`, this.editedItem)
       .then((res: any) => {
         Object.assign(this.modelList[this.editedIndex], res.body)
+        this.$store.commit('successAlert', { msg: 'Elemento actualizado con éxito.' })
       })
-      .catch((err: any) => console.log(err))
+      .catch(() => { this.$store.commit('errorAlert', { msg: 'El registro no se pudo actualizar.' }) })
   }
 
   private async deleteItem (item: any) {
@@ -92,8 +94,9 @@ export default class ActivityPageController extends Vue {
           await Vue.http.delete(`/api/v1/activity/${item.id}`)
             .then((res: any) => {
               this.modelList.splice(index, 1)
+              this.$store.commit('successAlert', { msg: 'Elemento eliminado con éxito.' })
             })
-            .catch((err: any) => console.log(err))
+            .catch(() => { this.$store.commit('errorAlert', { msg: 'El registro no se pudo eliminar.' }) })
         }
       })
   }
@@ -105,10 +108,6 @@ export default class ActivityPageController extends Vue {
       this.createItem()
     }
     this.close()
-  }
-
-  private emitNonification (event: any) {
-    console.log(event)
   }
 
   /*********************************************************
