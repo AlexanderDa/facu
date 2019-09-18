@@ -7,17 +7,17 @@
   "license": "MIT",
   "scripts": {
     "start": "cd facuService && yarn start",
-    "install": "cd facuService && yarn install",
-    "dev": "cd facuService && yarn dev & cd facuAdmin && yarn serve",
-    "dev:b": "cd facuService && yarn dev ",
-    "dev:f": "cd facuAdmin && yarn serve",
-    "install:a": "cd facuAdmin && yarn install && cd ../facuService && yarn install && cd ..",
+    "install": "cd facuAdmin && yarn install && cd ../facuService && yarn install && cd ..",
+    "build": "cd facuAdmin && yarn build",
+
+    "serve": "cd facuService && yarn dev & cd facuAdmin && yarn serve",
+    "serve:b": "cd facuService && yarn dev ",
+    "serve:f": "cd facuAdmin && yarn serve",
     "install:b": "cd facuService && yarn install",
     "install:f": "cd facuAdmin && yarn install",
     "add:b": "cd facuService && yarn add",
     "add:f": "cd facuAdmin && yarn add",
-    "lint": "cd facuAdmin && yarn lint",
-    "build:f": "cd facuAdmin && yarn build"
+    "lint": "cd facuAdmin && yarn lint"
   },
   "engines": {
     "node": "^10.16",
