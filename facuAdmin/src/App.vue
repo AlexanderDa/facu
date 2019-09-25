@@ -13,6 +13,8 @@ export default class MainAdminPageController extends Vue {
   public created (): void {
     // @ts-ignore
     this.$io.socket.on('new-event', function (event) {
+      // eslint-disable-next-line no-console
+      console.log(`New event: ${event.name}`)
       if ('Notification' in window) {
         let ask = Notification.requestPermission()
         ask.then((permission = 'granted') => {

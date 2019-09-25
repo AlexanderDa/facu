@@ -13,6 +13,9 @@ module.exports = {
         if (!list) {
             res.serverError({ fetched: false })
         } else {
+            list.forEach(activity => {
+                activity.activityDate = DateParse.format(activity.activityDate)
+            });
             res.send(list);
         }
     },
@@ -23,6 +26,9 @@ module.exports = {
         if (!list) {
             res.serverError({ fetched: false })
         } else {
+            list.forEach(activity => {
+                activity.activityDate = DateParse.format(activity.activityDate)
+            });
             res.send(list);
         }
     },
@@ -32,6 +38,7 @@ module.exports = {
         if (!activity) {
             res.serverError({ fetched: false })
         } else {
+            activity.activityDate = DateParse.format(activity.activityDate)
             res.send(activity);
         }
     },
@@ -42,6 +49,7 @@ module.exports = {
         if (!newActivity) {
             res.serverError({ saved: false })
         } else {
+            newActivity.activityDate = DateParse.format(newActivity.activityDate)
             res.send(newActivity);
 
         }
@@ -51,6 +59,7 @@ module.exports = {
         if (!updatedActivity) {
             res.serverError({ updated: false })
         } else {
+            updatedActivity.activityDate = DateParse.format(updatedActivity.activityDate)
             res.send(updatedActivity);
         }
     },

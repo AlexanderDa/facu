@@ -13,6 +13,10 @@ module.exports = {
         if (!list) {
             res.serverError({ fetched: false })
         } else {
+            list.forEach(event => {
+                event.eventDate = DateParse.format(event.eventDate)
+                event.publishDate = DateParse.format(event.publishDate)
+            });
             res.send(list);
         }
     },
@@ -38,6 +42,8 @@ module.exports = {
                 }
                 let events = []
                 for (let event of result.rows) {
+                    event.eventDate = DateParse.format(event.eventDate)
+                    event.publishDate = DateParse.format(event.publishDate)
                     events.push(event);
                 }
                 res.send(events);
@@ -45,11 +51,19 @@ module.exports = {
     },
 
     getById: async function (req, res) {
-        let element = await Event.findOne(req.param('id')).populate('activities');
-        if (!element) {
+        let event = await Event.findOne(req.param('id')).populate('activities');
+        if (!event) {
             res.serverError({ fetched: false })
         } else {
-            res.send(element);
+            event.eventDate = DateParse.format(event.eventDate)
+            event.publishDate = DateParse.format(event.publishDate)
+            if (event.activities.length > 0){
+                event.activities.forEach(activity => {
+                    activity.activityDate = DateParse.format(activity.activityDate)
+                });
+            }
+
+                res.send(event);
         }
     },
 
@@ -81,6 +95,8 @@ module.exports = {
                         image: `${sails.config.custom.baseUrl}/file/image/${newImage.id}`
                     }
                     ).fetch();
+                    newEvent.eventDate = DateParse.format(newEvent.eventDate)
+                    newEvent.publishDate = DateParse.format(newEvent.publishDate)
                     return res.send(newEvent);
                 }
 
@@ -103,6 +119,8 @@ module.exports = {
                         description: req.param('description'),
                         eventDate: req.param('eventDate'),
                     });
+                    updateEvent.eventDate = DateParse.format(updateEvent.eventDate)
+                    updateEvent.publishDate = DateParse.format(updateEvent.publishDate)
                     res.send(updateEvent)
                 }
                 else {
@@ -132,6 +150,8 @@ module.exports = {
                         eventDate: req.param('eventDate'),
                         image: `${sails.config.custom.baseUrl}/file/image/${newImage.id}`
                     });
+                    updateEvent.eventDate = DateParse.format(updateEvent.eventDate)
+                    updateEvent.publishDate = DateParse.format(updateEvent.publishDate)
                     res.send(updateEvent)
                 }
 
@@ -151,7 +171,8 @@ module.exports = {
                 sails.log('Image deleted from server')
             });
 
-
+            deletedEvent.eventDate = DateParse.format(deletedEvent.eventDate)
+            deletedEvent.publishDate = DateParse.format(deletedEvent.publishDate)
             res.send(deletedEvent);
         }
     }

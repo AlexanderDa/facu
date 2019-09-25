@@ -53,7 +53,10 @@
           <v-icon small v-if="!item.wasNotificated">notifications_active</v-icon>
           <v-icon small v-else>notifications_off</v-icon>
         </v-btn>
-        <v-btn @click="toEditItem(item)" icon>
+        <v-btn @click="printQr(item)" icon>
+          <v-icon small>developer_mode</v-icon>
+        </v-btn>
+         <v-btn @click="toEditItem(item)" icon>
           <v-icon small>edit</v-icon>
         </v-btn>
         <v-btn @click="$router.push({ name: 'ActivityPage', params: { eventId: item.id } })" icon>
