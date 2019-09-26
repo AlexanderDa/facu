@@ -20,7 +20,6 @@
     "lint": "cd facuAdmin && yarn lint"
   },
   "engines": {
-    "node": "^10.16",
     "yarn": "^1.17"
   }
 }

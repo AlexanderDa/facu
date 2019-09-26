@@ -24,7 +24,8 @@ export default class MainAdminPageController extends Vue {
 
   ];
 
-  public optionItems: Item[] = [
+  public menuItems: Item[] = [
+    { icon: 'settings', title: 'Mi cuenta', routerName: 'AccountPage' },
     { icon: 'logout', title: 'Salir', routerName: 'LoginPage' }
   ];
 

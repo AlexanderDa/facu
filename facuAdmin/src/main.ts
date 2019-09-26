@@ -13,15 +13,6 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 Vue.config.productionTip = false
 
-fetch('/api/v1/account/me')
-  .then(async function (response) {
-    if (response.status === 200) {
-      await localStorage.setItem('isLogged', 'true')
-    } else {
-      await localStorage.setItem('isLogged', 'false')
-    }
-  })
-
 new Vue({
   router,
   store,

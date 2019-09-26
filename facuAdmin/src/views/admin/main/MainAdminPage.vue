@@ -1,18 +1,20 @@
 <template>
   <div id="app">
     <v-app id="inspire">
-
       <v-alert
-      style="z-index:999;position:absolute;top:10px;right:10px"
-      v-model="$store.state.alert.show"
-      :type="$store.state.alert.type"
-      transition="scroll-x-reverse-transition"
-      width="400"
-      dismissible
-      border="left"
-    >
-      <p v-if="$store.state.alert.title"><b>{{$store.state.alert.title}}</b></p>{{$store.state.alert.msg}}
-    </v-alert>
+        style="z-index:999;position:fixed;top:10px;right:10px"
+        v-model="$store.state.alert.show"
+        :type="$store.state.alert.type"
+        transition="scroll-x-reverse-transition"
+        width="400"
+        dismissible
+        border="left"
+      >
+        <p v-if="$store.state.alert.title">
+          <b>{{$store.state.alert.title}}</b>
+        </p>
+        {{$store.state.alert.msg}}
+      </v-alert>
       <v-navigation-drawer v-model="drawer" app clipped>
         <v-list dense>
           <v-list-item
@@ -47,17 +49,13 @@
           </template>
 
           <v-list>
-            <v-list-item
-              v-for="(item, i) in optionItems"
-              :key="i"
-              @click="changeView(item.routerName)"
-            >
-              <v-list-tile-action>
-                <v-icon>{{ item.icon }}</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content style="margin-left:20px">
-                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-              </v-list-tile-content>
+            <v-list-item v-for="(item, i) in menuItems" :key="i"  @click="changeView(item.routerName)">
+              <v-list-item-icon>
+                <v-icon v-text="item.icon"></v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title v-text="item.title"></v-list-item-title>
+              </v-list-item-content>
             </v-list-item>
           </v-list>
         </v-menu>

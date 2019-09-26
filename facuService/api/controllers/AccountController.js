@@ -43,8 +43,11 @@ module.exports = {
     },
 
     updateProfile: async function (req, res) {
+        const { lastName, firstName, telephone } = req.allParams()
         if (req.me) {
-            let updatedUser = await User.updateOne(req.me.id, req.allParams());
+            let updatedUser = await User.updateOne(req.me.id, {
+                lastName, firstName, telephone
+            });
             if (!updatedUser) {
                 res.serverError({ updated: false })
             } else {

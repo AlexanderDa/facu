@@ -16,6 +16,12 @@ const router = new Router({
       component: () => import('@/views/login/LoginPage.vue')
     },
     {
+      path: '/account',
+      name: 'AccountPage',
+      meta: { onlyLogged: true },
+      component: () => import('@/views/account/AccountPage.vue')
+    },
+    {
 
       path: '/admin',
       name: 'MainAdminPage',
