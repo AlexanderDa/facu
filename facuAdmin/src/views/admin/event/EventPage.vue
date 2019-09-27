@@ -122,12 +122,19 @@
                         required
                       />
                     </v-flex>
+                     <v-flex xs12>
+                      <v-text-field
+                        label="Lugar del evento"
+                        v-model.trim="editedItem.place"
+                        required
+                      />
+                    </v-flex>
                     <v-flex xs12>
                       <v-text-field
                         label="Fecha del eveto"
                         v-model.trim="editedItem.eventDate"
                         return-masked-value
-                        v-mask="'####-##-## ##:##'"
+                        v-mask="['####-##-##','####-##-## #:##','####-##-## ##:##']"
                         placeholder="2020-02-20 20:20"
                         required
                       />

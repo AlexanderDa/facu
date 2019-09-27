@@ -21,6 +21,13 @@
               <v-list>
                 <v-list-item two-line>
                   <v-list-item-content>
+                    <v-list-item-title>Lugar de concentración</v-list-item-title>
+                    <v-list-item-subtitle>{{event.place}}</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item two-line>
+                  <v-list-item-content>
                     <v-list-item-title>Fecha de publicación</v-list-item-title>
                     <v-list-item-subtitle>{{event.publishDate}}</v-list-item-subtitle>
                   </v-list-item-content>

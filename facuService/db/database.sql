@@ -1,3 +1,7 @@
+/********************************************************************
+*                               TABLES                              *
+********************************************************************/
+
 CREATE TABLE activity(
     id serial NOT NULL,
     name character varying(200) NOT NULL,
@@ -44,6 +48,7 @@ CREATE TABLE dbuser(
 CREATE TABLE event(
     id serial NOT NULL,
     name character varying(200) NOT NULL,
+    place character varying(250) NOT NULL,
     description text,
     publish_date date NOT NULL,
     event_date timestamp without time zone NOT NULL,
@@ -117,3 +122,101 @@ add constraint fk_score_subscription_user foreign key(userid) references dbuser(
 
 alter table work
 add constraint fk_work_professional foreign key(professional) references professional(id);
+
+/********************************************************************
+*                          DEFAULT VALUES                           *
+********************************************************************/
+
+INSERT INTO dbuser(email,email_status,password,last_name,first_name,superadmin) values(
+    'facuevent@gmail.com',
+    'confirmed',
+    '$2a$10$VGIXr2MXs/NFM6PS6o3qs.pnmJcSXqmsuN5srlI3Rc3zzl5QuaNDS',
+    'admin',
+    'admin',
+    true
+);
+
+/********************************************************************
+*          TRIGGER PARA NUENA INSCRIPCION A UNA ACTIVIDAD           *
+********************************************************************/
+CREATE OR REPLACE FUNCTION public.fun_new_subscription() RETURNS TRIGGER AS
+$BODY$
+declare
+	require_inscription BOOLEAN;
+    current_quota  INTEGER ;
+	current_registered  INTEGER ;
+BEGIN
+	require_inscription = (SELECT activity.require_inscription FROM activity WHERE id =new.activity);
+	current_quota = (SELECT quota FROM activity WHERE id = new.activity);
+	current_registered = (SELECT registered FROM activity WHERE id = new.activity);
+	IF current_registered  is null THEN
+        current_registered = 0;
+	END IF;
+	
+					
+	IF new.has_subscription = true THEN
+		IF require_inscription = true THEN -- si la actividad requiere inscripción
+			IF current_quota > 0 THEN --Verificar si hay cupo
+				UPDATE activity set registered = (current_registered+1) where id = new.activity;
+				new.has_subscription = true;
+				new.subscription_date = CURRENT_TIMESTAMP;
+			ELSE
+				RAISE EXCEPTION 'Esta actividad no tiene cupos disponibles..';
+			END IF;
+		ELSE
+			RAISE EXCEPTION 'Esta actividad no requiere inscripción.';
+		END IF;
+		
+	ELSE
+		IF require_inscription = true THEN -- si la actividad requiere inscripción
+			RAISE EXCEPTION 'Esta actividad requiere inscripción.';
+		ELSE
+			new.score_date = CURRENT_TIMESTAMP;
+		END IF;
+	END IF;
+		
+    return new;
+END
+$BODY$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER new_subscription
+    before insert
+    on score_subscription
+    FOR EACH ROW
+EXECUTE PROCEDURE fun_new_subscription();
+
+
+/********************************************************************
+*          TRIGGER PARA EDITAR INSCRIPCION A UNA ACTIVIDAD          *
+********************************************************************/
+
+
+CREATE OR REPLACE FUNCTION public.fun_update_subscription() RETURNS TRIGGER AS $BODY$
+DECLARE
+	current_quota  INTEGER ;
+	current_registered  INTEGER ;
+BEGIN
+	current_quota = (SELECT quota FROM activity WHERE id = new.activity);
+	current_registered = (SELECT registered FROM activity WHERE id = new.activity);
+	if new.has_subscription = true then
+		if current_quota > 0 then
+			UPDATE activity set registered = (current_registered+1) where id = new.activity;
+		else
+			RAISE EXCEPTION 'Esta actividad no tiene cupos disponibles..';
+		end if;
+	else
+		UPDATE activity set registered = (current_registered-1) where id = new.activity;
+	end if;
+	
+    return new;
+END
+$BODY$ 
+LANGUAGE plpgsql;
+
+
+CREATE TRIGGER update_subscription
+    before update
+    on score_subscription
+    FOR EACH ROW
+EXECUTE PROCEDURE fun_update_subscription();

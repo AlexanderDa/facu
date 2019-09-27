@@ -139,6 +139,7 @@ export default class EventPageController extends Vue {
   private formData () {
     var formData = new FormData()
     formData.append('name', this.editedItem.name)
+    formData.append('place', this.editedItem.place)
     formData.append('eventDate', this.editedItem.eventDate)
     if (this.editedItem.description) { formData.append('description', this.editedItem.description) }
     formData.append('image', this.imageFile)

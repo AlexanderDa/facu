@@ -27,6 +27,7 @@ module.exports = {
         const query = `SELECT
     id,
     name,
+    place,
     description,
     publish_date as "publishDate",
     event_date as "eventDate",
@@ -89,6 +90,7 @@ module.exports = {
 
                     let newEvent = await Event.create({
                         name: req.param('name'),
+                        place: req.param('place'),
                         description: req.param('description'),
                         publishDate: new Date(),
                         eventDate: req.param('eventDate'),
@@ -116,6 +118,7 @@ module.exports = {
                 if (uploadedFiles.length === 0) {
                     let updateEvent = await Event.updateOne(req.param('id'), {
                         name: req.param('name'),
+                        place: req.param('place'),
                         description: req.param('description'),
                         eventDate: req.param('eventDate'),
                     });
@@ -146,6 +149,7 @@ module.exports = {
                     //uptdate event
                     let updateEvent = await Event.updateOne(req.param('id'), {
                         name: req.param('name'),
+                        place: req.param('place'),
                         description: req.param('description'),
                         eventDate: req.param('eventDate'),
                         image: `${sails.config.custom.baseUrl}/file/image/${newImage.id}`

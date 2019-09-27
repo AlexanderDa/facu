@@ -117,6 +117,7 @@ export default class ActivityPageController extends Vue {
   private newItem () {
     this.dialog = true
     this.editedItem.event = this.$route.params.eventId
+    this.editedItem.place = this.event.place
     this.editedItem.activityDate = this.event.eventDate.substring(0, 10)
     this.editedItem.startTime = this.event.eventDate.substring(11, 16)
   }

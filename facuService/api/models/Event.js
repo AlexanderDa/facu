@@ -21,6 +21,13 @@ module.exports = {
       type: 'string',
     },
 
+    place: {
+      type: 'string',
+      maxLength: 250,
+      columnType: 'character varying(250)',
+      required: true
+    },
+
     publishDate: {
       type: 'ref',
       columnType: 'date',
