@@ -53,7 +53,7 @@ module.exports.routes = {
 
 
   'GET        /api/v1/activities': 'ActivityController.getAll',
-  'GET        /api/v1/activities/:eventId': 'ActivityController.getByEvent',
+  'GET        /api/v1/activities/event/:eventId': 'ActivityController.getByEvent',
   'GET        /api/v1/activity/:id': 'ActivityController.getById',
   'POST       /api/v1/activity': { controller: 'ActivityController', action: 'createNewActivity' },
   'PUT        /api/v1/activity/:id': { controller: 'ActivityController', action: 'updateOneActivity' },

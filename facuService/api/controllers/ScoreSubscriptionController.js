@@ -8,7 +8,21 @@
 module.exports = {
 
     getScoreFromAtivity: async function (req, res) {
-        res.send({ functionName: 'getScoreFromAtivity', me: req.me })
+        const activity = await Activity.findOne(req.param('activityId'))
+        const list = await ScoreSubscription
+            .find({ activity: req.param('activityId') })
+            .populate('user')
+
+        if (!activity || !list) {
+            res.serverError({ fetched: false })
+        } else {
+            activity.activityDate = DateParse.format(activity.activityDate)
+            list.forEach(element => {
+                element.subscriptionDate = DateParse.format(element.subscriptionDate)
+                element.user = User.format(element.user)
+            });
+            res.send({ activity, subscribed: list })
+        }
     },
 
     postScoreToAtivity: async function (req, res) {
@@ -26,7 +40,7 @@ module.exports = {
                 },
                 {
                     scoreDate: new Date(),
-                    note: req.param('note')
+                    score: req.param('score')
                 }
             ).fetch();
             if (scoreSubscription) {
@@ -60,10 +74,15 @@ module.exports = {
 
     getSubscribedActivities: async function (req, res) {
         let subscribed = await ScoreSubscription.find({
-            user: 1
+            user: req.me.id
         }).populate('activity');
         for (i = 0; i < subscribed.length; i++) {
-            subscribed[i].activity.event = await Event.findOne(subscribed[i].activity.event)
+            subscribed[i].subscriptionDate = DateParse.format(subscribed[i].subscriptionDate)
+            subscribed[i].activity.activityDate = DateParse.format(subscribed[i].activity.activityDate)
+            let event = await Event.findOne(subscribed[i].activity.event)
+            event.eventDate = DateParse.format(event.eventDate)
+            event.publishDate = DateParse.format(event.publishDate)
+            subscribed[i].activity.event = event
         }
         res.send({ subscribed })
     },

@@ -59,7 +59,10 @@
          <v-btn @click="toEditItem(item)" icon>
           <v-icon small>edit</v-icon>
         </v-btn>
-        <v-btn @click="$router.push({ name: 'ActivityPage', params: { eventId: item.id } })" icon>
+        <v-btn @click="$router.push({ name: 'AttendeesPage', params: { eventId: item.id } })" icon>
+          <v-icon small>reorder</v-icon>
+        </v-btn>
+         <v-btn @click="$router.push({ name: 'ActivityPage', params: { eventId: item.id } })" icon>
           <v-icon small>library_add</v-icon>
         </v-btn>
         <v-btn @click="deleteItem(item)" icon>

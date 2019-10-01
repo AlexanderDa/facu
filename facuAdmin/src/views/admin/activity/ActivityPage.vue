@@ -87,6 +87,12 @@
                 <v-chip v-else color="warning" dark>Sin Notificar</v-chip>
               </template>
               <template v-slot:item.action="{ item }">
+                <v-btn
+                  @click="$router.push({ name: 'SubscribedPage', params: { activityId: item.id } })"
+                  icon
+                >
+                  <v-icon small>reorder</v-icon>
+                </v-btn>
                 <v-btn @click="toEditItem(item)" icon>
                   <v-icon small>edit</v-icon>
                 </v-btn>

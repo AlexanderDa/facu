@@ -35,9 +35,19 @@ const router = new Router({
           component: () => import('@/views/admin/event/EventPage.vue')
         },
         {
-          path: 'activities/event/:eventId/',
+          path: 'activities/event/:eventId',
           name: 'ActivityPage',
           component: () => import('@/views/admin/activity/ActivityPage.vue')
+        },
+        {
+          path: 'activity/:activityId/subscribed',
+          name: 'SubscribedPage',
+          component: () => import('@/views/admin/subscribed/SubscribedPage.vue')
+        },
+        {
+          path: 'attendees/event/:eventId',
+          name: 'AttendeesPage',
+          component: () => import('@/views/admin/attendees/AttendeesPage.vue')
         },
         {
           path: 'professional',

@@ -22,23 +22,32 @@ module.exports = {
 
     getByEvent: async (req, res) => {
 
-        let list = await Activity.find({ event: req.param('eventId') });
+        let list = await Activity.find({ event: req.param('eventId') })
+            .populate('event')
+            .populate('professional');
         if (!list) {
             res.serverError({ fetched: false })
         } else {
             list.forEach(activity => {
                 activity.activityDate = DateParse.format(activity.activityDate)
+                activity.event.eventDate = DateParse.format(activity.event.eventDate)
+                activity.event.publishDate = DateParse.format(activity.event.publishDate)
             });
             res.send(list);
         }
     },
 
     getById: async function (req, res) {
-        let activity = await Activity.findOne(req.param('id'));
+        let activity = await Activity.findOne(req.param('id'))
+            .populate('event')
+            .populate('professional');
         if (!activity) {
             res.serverError({ fetched: false })
         } else {
             activity.activityDate = DateParse.format(activity.activityDate)
+            activity.event.eventDate = DateParse.format(activity.event.eventDate)
+            activity.event.publishDate = DateParse.format(activity.event.publishDate)
+
             res.send(activity);
         }
     },

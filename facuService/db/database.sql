@@ -114,6 +114,9 @@ add constraint fk_assistant_event foreign key(event) references event(id);
 alter table assistant
 add constraint fk_assistant_user foreign key(userid) references dbuser(id);
 
+alter table assistant 
+add constraint unique_assistant unique(event,userid);
+
 alter table score_subscription
 add constraint fk_score_subscription_activity foreign key(activity) references activity(id);
 

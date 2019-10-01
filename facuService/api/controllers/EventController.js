@@ -9,7 +9,7 @@ module.exports = {
 
 
     getAll: async function (req, res) {
-        let list = await Event.find();
+        let list = await Event.find().sort('eventDate DESC');
         if (!list) {
             res.serverError({ fetched: false })
         } else {

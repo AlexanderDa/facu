@@ -10,7 +10,7 @@
 
 module.exports.custom = {
 
-  baseUrl: 'http://localhost:1337',
+  baseUrl: 'http://192.168.8.143:1337',
   maxImageSize: 3500000,
   timeout: 30000
 

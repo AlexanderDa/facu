@@ -13,6 +13,11 @@ module.exports = {
         if (!event || !assistants) {
             res.serverError({ fetched: false })
         } else {
+            event.eventDate = DateParse.format(event.eventDate)
+            event.publishDate = DateParse.format(event.publishDate)
+            assistants.forEach(item => {
+                item.user = User.format(item.user)
+            });
             res.send({
                 event,
                 assistants
@@ -21,10 +26,16 @@ module.exports = {
 
     },
     getByUserLogged: async (req, res) => {
-        const assisted = await Assistant.find({ user: req.me.id }).populate('event')
+        const assisted = await Assistant.find({ user: req.me.id })
+            .populate('event')
+            .sort('id DESC');
         if (!assisted) {
             res.serverError({ fetched: false })
         } else {
+            assisted.forEach(element => {
+                element.event.eventDate = DateParse.format(element.event.eventDate)
+                element.event.publishDate = DateParse.format(element.event.publishDate)
+            });
             res.send(assisted)
         }
     },
@@ -45,10 +56,7 @@ module.exports = {
     post: async (req, res) => {
         let newAssistant = await Assistant.create({ user: req.me.id, event: req.param('eventId') }).fetch();
         if (!newAssistant) {
-            res.status(400);
-            res.send({
-                saved: false,
-            });
+            res.serverError({ saved: false, error: 'E_UNIQUE' })
         } else {
             res.send({
                 saved: true,
