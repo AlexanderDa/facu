@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang=es><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=/favicon.ico><title>Facu</title><link href=/css/chunk-11a0bf2c.df017b2c.css rel=prefetch><link href=/css/chunk-1473fdbc.dddcdfcd.css rel=prefetch><link href=/css/chunk-22c2c7e2.627d55b9.css rel=prefetch><link href=/css/chunk-24f2e3d8.a7bb32cb.css rel=prefetch><link href=/css/chunk-26b0c29f.d96a8284.css rel=prefetch><link href=/css/chunk-2cce71f1.acb870fa.css rel=prefetch><link href=/css/chunk-4f23996b.329ad26b.css rel=prefetch><link href=/css/chunk-507a7714.56915d1d.css rel=prefetch><link href=/css/chunk-52302fa0.47b37b23.css rel=prefetch><link href=/css/chunk-53b867e0.c48927a6.css rel=prefetch><link href=/css/chunk-6a937209.ee96af16.css rel=prefetch><link href=/css/chunk-848dd11e.e56a2396.css rel=prefetch><link href=/css/chunk-aba7a854.df017b2c.css rel=prefetch><link href=/css/chunk-b8115cd0.5644ee30.css rel=prefetch><link href=/js/chunk-11a0bf2c.fc938343.js rel=prefetch><link href=/js/chunk-1473fdbc.5d9753f1.js rel=prefetch><link href=/js/chunk-22c2c7e2.b2f09cfc.js rel=prefetch><link href=/js/chunk-24f2e3d8.c0fae82d.js rel=prefetch><link href=/js/chunk-26b0c29f.369ced5f.js rel=prefetch><link href=/js/chunk-2cce71f1.6157bc91.js rel=prefetch><link href=/js/chunk-4f23996b.1407c423.js rel=prefetch><link href=/js/chunk-507a7714.bd6236bc.js rel=prefetch><link href=/js/chunk-52302fa0.8c540253.js rel=prefetch><link href=/js/chunk-53b867e0.e6a9e422.js rel=prefetch><link href=/js/chunk-6a937209.cd5d6d07.js rel=prefetch><link href=/js/chunk-848dd11e.075778fe.js rel=prefetch><link href=/js/chunk-aba7a854.88a253de.js rel=prefetch><link href=/js/chunk-b8115cd0.a9777678.js rel=prefetch><link href=/css/chunk-vendors.07eed0cf.css rel=preload as=style><link href=/js/app.592bdbcf.js rel=preload as=script><link href=/js/chunk-vendors.58d3d292.js rel=preload as=script><link href=/css/chunk-vendors.07eed0cf.css rel=stylesheet></head><body><noscript><strong>We're sorry but facuadmin doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><script>async function init() {
+      const session = await fetch('/api/v1/account/me')
+      switch (session.status) {
+        case 200:
+          await localStorage.setItem('isLogged', 'true')
+          break
+
+        case 401:
+          await localStorage.setItem('isLogged', 'false')
+          break
+      }
+    }
+    init()</script><div id=app></div><script src=/js/chunk-vendors.58d3d292.js></script><script src=/js/app.592bdbcf.js></script></body></html>
