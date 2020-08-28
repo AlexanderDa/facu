@@ -6,20 +6,15 @@
   "author": "Alexander David ",
   "license": "MIT",
   "scripts": {
-    "start": "cd facuService && yarn start",
-    "install": "cd facuAdmin && yarn install && cd ../facuService && yarn install && cd ..",
-    "build": "cd facuAdmin && yarn build",
-
-    "serve": "cd facuService && yarn dev & cd facuAdmin && yarn serve",
-    "serve:b": "cd facuService && yarn dev ",
-    "serve:f": "cd facuAdmin && yarn serve",
-    "install:b": "cd facuService && yarn install",
-    "install:f": "cd facuAdmin && yarn install",
-    "add:b": "cd facuService && yarn add",
-    "add:f": "cd facuAdmin && yarn add",
-    "lint": "cd facuAdmin && yarn lint"
-  },
-  "engines": {
-    "yarn": "^1.17"
+    "prestart": "cd facuAdmin && yarn build",
+    "start": "cd facuService && npm run start",
+    "install": "cd facuAdmin && npm  i && cd ../facuService && npm  i && cd ..",
+    "build": "cd facuAdmin && npm run build",
+    "serve": "cd facuService && npm run dev & cd facuAdmin && npm run serve",
+    "serve:b": "cd facuService && npm run dev ",
+    "serve:f": "cd facuAdmin && npm run serve",
+    "install:b": "cd facuService && npm  i",
+    "install:f": "cd facuAdmin && npm  i",
+    "lint": "cd facuAdmin && npm run lint"
   }
 }

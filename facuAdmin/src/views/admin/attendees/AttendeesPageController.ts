@@ -65,7 +65,6 @@ export default class AttendeesPageController extends Vue {
     ])
 
     this.modelList.forEach((element: any, index: number) => {
-      console.log({ index, element })
       content.push([
         { text: (index + 1), style: 'tcell' },
         { text: element.user.lastName, style: 'tcell' },
